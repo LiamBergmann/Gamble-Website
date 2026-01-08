@@ -1,3 +1,2 @@
 # Gamble-Website
-#
-# A school project
+A school project
