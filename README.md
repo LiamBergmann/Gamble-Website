@@ -1,2 +1,2 @@
-# Gambleing-Website
+# Gambling-Website
 A school project
