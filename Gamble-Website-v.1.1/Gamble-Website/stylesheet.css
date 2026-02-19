@@ -1,0 +1,45 @@
+:root {
+    --ink: #1a1008;
+    --paper: #faf6ee;
+    --paper2: #f5f0e4;
+    --paper3: #ede8d8;
+    --red: #e03030;
+    --blue: #2a6abf;
+    --green: #2a8a3a;
+    --yellow: #f5c820;
+    --purple: #7b3fbf;
+    --orange: #e87820;
+    --pink: #e84080;
+    --text: #2a1e0a;
+    --doodle-shadow: 4px 4px 0px #1a1008;
+    --doodle-shadow-sm: 2px 2px 0px #1a1008;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Patric Hand' cursive;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent, 27px, rgba(100, 140, 200, 0.12) 27px, rgba(100, 140, 200, 0.12) 28px),
+        repeating-linear-gradient(90deg, transparent, transparent, 27px, rgba(100, 140, 200, 0.12) 27px, rgba(100, 140, 200, 0.12) 28px);
+}
+
+
+/*Header*/
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--yellow);
+    border-bottom: 3px solid var(--ink);
+    padding: 10px 24px;
+}
