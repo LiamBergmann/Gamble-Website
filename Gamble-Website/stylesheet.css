@@ -1,11 +1,11 @@
 :root {
-    --ink: #1a1008;
-    --paper: #faf6ee;
-    --paper2: #f5f0e4;
-    --paper3: #ede8d8;
-    --red: #e03030;
-    --blue: #2a6abf;
-    --green: #2a8a3a;
+    --xp-blue-title: #0054e3;
+    --xp-blue-title2: #2874f0;
+    --titlebar: linear-gradient(180deg, #4d9cf8 0%, #1461d8 4%, #1255c7 90%, #0e44ad 100%);
+    --xp-btn-face: #ece9d8;
+    --xp-btn-top: linear-gradient(180deg, #ffffff 0%, #ecd9d8 100%);
+    --xp-btn-hover: linear-gradient(180deg, #fff6d5 0%, #f5d67a 50%, #e8b800 100%);
+    --xp-btn-active: linear-gradient(180deg, #c5a800 0%, #e8b800 100%);
     --yellow: #f5c820;
     --purple: #7b3fbf;
     --orange: #e87820;
