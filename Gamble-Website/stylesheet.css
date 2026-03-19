@@ -40,28 +40,15 @@
 }
 
 body {
-  font-family: "Patric Hand" cursive;
-  background: var(--paper);
-  color: var(--ink);
+  font-family: "Tahoma", "Franklin Gothic Medium", Arial, sans-serif;
+  font-size: 11px;
+  background: var(--xp-desktop);
+  background-image:
+    radial-gradient(ellipse at 30% 40%, #5a9fd4 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 70%, #2a5c8a 0%, transparent 50%);
+  color: #000;
   min-height: 100vh;
   overflow-x: hidden;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent,
-      27px,
-      rgba(100, 140, 200, 0.12) 27px,
-      rgba(100, 140, 200, 0.12) 28px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent,
-      27px,
-      rgba(100, 140, 200, 0.12) 27px,
-      rgba(100, 140, 200, 0.12) 28px
-    );
 }
 
 /*Header*/
