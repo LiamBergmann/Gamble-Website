@@ -51,16 +51,15 @@ body {
   overflow-x: hidden;
 }
 
-/*Header*/
+/* HEADER = XP Taskbar */
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: var(--yellow);
-  border-bottom: 3px solid var(--ink);
-  padding: 10px 24px;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 38px;
+  background: linear-gradient(180deg, #2a82d4 0%, #1560c8 4%, #0f4ab5 95%, #0a3590 100%);
+  border-top: 1px solid #74b4f4;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 nav {
