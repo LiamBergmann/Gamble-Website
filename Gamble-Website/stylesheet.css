@@ -185,7 +185,7 @@ header {
   display: block;
 }
 
-/* main section = background */
+/* main section = background, fetig machen */
 main {
   background: var(--xp-desktop);
   background-image:
