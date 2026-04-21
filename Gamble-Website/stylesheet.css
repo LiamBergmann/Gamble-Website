@@ -185,6 +185,16 @@ header {
   display: block;
 }
 
+/* main section = background */
+main {
+  background: var(--xp-desktop);
+  background-image:
+    radial-gradient(ellipse at 30% 40%, #5a9fd4 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 70%, #2a5c8a 0%, transparent 50%);
+  padding: 20px;
+  margin: 20px;
+}
+
 /* HOME = XP Window on desktop */
 #home {
   background: var(--xp-desktop);
