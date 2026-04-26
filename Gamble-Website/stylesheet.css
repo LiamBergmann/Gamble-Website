@@ -241,7 +241,7 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 2% auto;
   padding: 10px 20px 40px;
 }
 
