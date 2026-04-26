@@ -125,3 +125,238 @@ function closeRulesBtn() {
 function closeRules(e) {
   if (e.target === document.getElementById('rules-overlay')) closeRulesBtn();
 }
+
+
+// ===================== BLACKJACK =====================
+function initBlackjack(container) {
+  let deck = [], playerHand = [], dealerHand = [], bet = 0, gameOver = true;
+  let msg = 'Place your bet and deal!', msgClass = 'msg-info';
+  let splitHands = null, splitBets = null, activeSplit = 0;
+ 
+  function canSplit() {
+    if (gameOver || playerHand.length !== 2 || splitHands) return false;
+    if (wallet < bet) return false;
+    return cardValue(playerHand[0]) === cardValue(playerHand[1]);
+  }
+ 
+  function renderHand(hand, label, value, active=true) {
+    const border = active ? 'border: 2px solid var(--yellow);' : 'opacity:0.6;';
+    return `<div style="${border} border-radius:6px; padding:6px; margin-bottom:6px; transition:all 0.2s;">
+      <div class="hand-label">${label} <span class="hand-value">${value}</span></div>
+      <div class="hand">${hand.map(renderCard).join('')}</div>
+    </div>`;
+  }
+ 
+  function render() {
+    const dv = handValue(dealerHand.filter(c=>!c.faceDown));
+    let playerSection = '';
+    if (splitHands) {
+      const v0 = handValue(splitHands[0]), v1 = handValue(splitHands[1]);
+      playerSection = `<hr class="section-sep">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          ${renderHand(splitHands[0], '✋ Hand 1', v0, activeSplit===0 && !gameOver)}
+          ${renderHand(splitHands[1], '✋ Hand 2', v1, activeSplit===1 && !gameOver)}
+        </div>`;
+    } else {
+      const pv = handValue(playerHand);
+      playerSection = `<hr class="section-sep">
+        <div class="hand-label">You <span class="hand-value">${pv}</span></div>
+        <div class="hand">${playerHand.map(renderCard).join('')}</div>`;
+    }
+    let betDisplay = splitHands
+      ? `<span class="bet-label">Hand 1:</span><span class="bet-display">${formatMoney(splitBets[0])}</span>
+         <span class="bet-label" style="margin-left:8px">Hand 2:</span><span class="bet-display">${formatMoney(splitBets[1])}</span>`
+      : `<span class="bet-label">Bet:</span><span class="bet-display">${formatMoney(bet)}</span>`;
+    let actionBtns = '';
+    if (!gameOver) {
+      actionBtns = `
+        <button class="btn btn-gold" onclick="bjHit()">Hit</button>
+        <button class="btn btn-outline" onclick="bjStand()">Stand</button>
+        ${!splitHands && playerHand.length===2 && wallet>=bet ? `<button class="btn btn-red" onclick="bjDouble()">Double Down</button>` : ''}
+        ${canSplit() ? `<button class="btn btn-purple" onclick="bjSplit()">✂ Split</button>` : ''}
+      `;
+    }
+    const inBettingPhase = gameOver && playerHand.length === 0 && !splitHands;
+    container.innerHTML = `
+      ${streakBarHTML('blackjack')}
+      <div class="felt-table">
+        <div class="hand-label">Dealer <span class="hand-value">${gameOver ? handValue(dealerHand) : dv}</span></div>
+        <div class="hand">${dealerHand.map(renderCard).join('')}</div>
+        ${playerSection}
+        <div class="message-box ${msgClass}" style="margin-top:10px">${msg}</div>
+      </div>
+      <div class="bet-area">
+        ${betDisplay}
+        ${inBettingPhase ? `
+          <div class="chip chip-5" onclick="placeBet(5)">$5</div>
+          <div class="chip chip-10" onclick="placeBet(10)">$10</div>
+          <div class="chip chip-25" onclick="placeBet(25)">$25</div>
+          <div class="chip chip-50" onclick="placeBet(50)">$50</div>
+          <div class="chip chip-100" onclick="placeBet(100)">$100</div>
+        ` : ''}
+      </div>
+      <div class="controls">
+        ${inBettingPhase ? `<button class="btn btn-gold" onclick="bjDeal()" ${bet===0?'disabled':''}>Deal</button>
+        <button class="btn btn-outline" onclick="bjClearBet()">Clear Bet</button>` : ''}
+        ${actionBtns}
+        ${gameOver && (playerHand.length > 0 || splitHands) ? `<button class="btn btn-outline" onclick="bjNewGame()">New Game</button>` : ''}
+      </div>
+    `;
+  }
+ 
+  window.placeBet = function(amount) {
+    if (!gameOver || playerHand.length > 0 || splitHands) return;
+    if (wallet < amount) { showToast('Not enough funds!'); return; }
+    bet += amount; wallet -= amount;
+    document.getElementById('wallet-display').textContent = formatMoney(wallet);
+    render();
+  };
+  window.bjClearBet = function() {
+    wallet += bet; bet = 0;
+    document.getElementById('wallet-display').textContent = formatMoney(wallet);
+    render();
+  };
+  window.bjDeal = function() {
+    if (bet === 0 || !gameOver) return;
+    deck = createDeck();
+    playerHand = [deck.pop(), deck.pop()];
+    dealerHand = [deck.pop(), {...deck.pop(), faceDown: true}];
+    splitHands = null; splitBets = null; activeSplit = 0;
+    gameOver = false;
+    msg = 'Hit or Stand?'; msgClass = 'msg-info';
+ 
+    const playerBJ = handValue(playerHand) === 21;
+    // Check dealer blackjack by peeking at full hand
+    const dealerBJ = handValue(dealerHand) === 21;
+ 
+    if (dealerBJ) {
+      // Reveal dealer hand immediately
+      revealDealer();
+      gameOver = true;
+      if (playerBJ) {
+        // Both have blackjack → Push
+        updateWallet(bet);
+        msg = '🤝 Both Blackjack! Push — bet returned.'; msgClass = 'msg-push';
+        recordLoss('blackjack');
+      } else {
+        msg = '🃏 Dealer Blackjack! You lose.'; msgClass = 'msg-lose';
+        recordLoss('blackjack');
+      }
+      bet = 0; render(); return;
+    }
+ 
+    // No dealer blackjack — if player has BJ, play out normally (wins 2.5x)
+    if (playerBJ) { bjStand(); return; }
+    render();
+  };
+  window.bjHit = function() {
+    if (gameOver) return;
+    if (splitHands) {
+      splitHands[activeSplit].push(deck.pop());
+      const pv = handValue(splitHands[activeSplit]);
+      if (pv > 21) {
+        if (activeSplit === 0) { activeSplit = 1; msg = '💀 Hand 1 busts! Now play Hand 2.'; msgClass = 'msg-lose'; render(); }
+        else { bjResolveSplit(); }
+      } else if (pv === 21) {
+        if (activeSplit === 0) { activeSplit = 1; msg = '21 on Hand 1! Now play Hand 2.'; msgClass = 'msg-info'; render(); }
+        else { bjResolveSplit(); }
+      } else render();
+    } else {
+      playerHand.push(deck.pop());
+      const pv = handValue(playerHand);
+      if (pv > 21) {
+        revealDealer(); msg = '💀 Bust! You lose.'; msgClass = 'msg-lose';
+        gameOver = true; recordLoss('blackjack'); render();
+      } else if (pv === 21) { bjStand(); }
+      else render();
+    }
+  };
+  window.bjStand = function() {
+    if (gameOver) return;
+    if (splitHands) {
+      if (activeSplit === 0) { activeSplit = 1; msg = 'Hand 1 done. Now play Hand 2 — Hit or Stand?'; msgClass = 'msg-info'; render(); }
+      else { bjResolveSplit(); }
+    } else {
+      revealDealer();
+      while (handValue(dealerHand) < 17) dealerHand.push(deck.pop());
+      const pv = handValue(playerHand), dv = handValue(dealerHand);
+      gameOver = true;
+      if (dv > 21 || pv > dv) {
+        if (pv === 21 && playerHand.length === 2) {
+          const bj = Math.floor(bet * 2.5);
+          updateWallet(bj); msg = `🎉 Blackjack! You win ${formatMoney(bj)}!`; msgClass = 'msg-win';
+        } else {
+          updateWallet(bet * 2); msg = `🎉 You win ${formatMoney(bet*2)}!`; msgClass = 'msg-win';
+        }
+        recordWin('blackjack');
+      } else if (pv === dv) {
+        updateWallet(bet); msg = '🤝 Push! Bet returned.'; msgClass = 'msg-push';
+        recordLoss('blackjack');
+      } else {
+        msg = `😔 Dealer wins with ${dv}.`; msgClass = 'msg-lose';
+        recordLoss('blackjack');
+      }
+      bet = 0; render();
+    }
+  };
+  function resolveHand(pv, dv, handBet) {
+    if (pv > 21) return false;
+    if (dv > 21 || pv > dv) return true;
+    return false;
+  }
+  function bjResolveSplit() {
+    if (gameOver) return;
+    revealDealer();
+    while (handValue(dealerHand) < 17) dealerHand.push(deck.pop());
+    const dv = handValue(dealerHand);
+    gameOver = true;
+    const pv0 = handValue(splitHands[0]), pv1 = handValue(splitHands[1]);
+    let won0 = false, push0 = false, won1 = false, push1 = false;
+    if (pv0 <= 21) {
+      if (dv > 21 || pv0 > dv) { updateWallet(splitBets[0]*2); won0 = true; }
+      else if (pv0 === dv) { updateWallet(splitBets[0]); push0 = true; }
+    }
+    if (pv1 <= 21) {
+      if (dv > 21 || pv1 > dv) { updateWallet(splitBets[1]*2); won1 = true; }
+      else if (pv1 === dv) { updateWallet(splitBets[1]); push1 = true; }
+    }
+    const r0 = won0 ? '🎉 Win' : push0 ? '🤝 Push' : '😔 Lose';
+    const r1 = won1 ? '🎉 Win' : push1 ? '🤝 Push' : '😔 Lose';
+    const allWin = won0 && won1, allLose = !won0 && !push0 && !won1 && !push1;
+    msg = `Hand 1: ${r0} (${pv0}) | Hand 2: ${r1} (${pv1}) | Dealer: ${dv}`;
+    msgClass = allWin ? 'msg-win' : allLose ? 'msg-lose' : 'msg-push';
+    // Streak: win only if both won, lose if both lost, push resets streak
+    if (won0 || won1) recordWin('blackjack'); else recordLoss('blackjack');
+    render();
+  }
+  window.bjDouble = function() {
+    if (wallet < bet) { showToast('Not enough funds!'); return; }
+    wallet -= bet; bet *= 2;
+    document.getElementById('wallet-display').textContent = formatMoney(wallet);
+    playerHand.push(deck.pop());
+    if (handValue(playerHand) > 21) {
+      revealDealer(); msg = '💀 Bust! You lose.'; msgClass = 'msg-lose';
+      gameOver = true; bet = 0; recordLoss('blackjack'); render();
+    } else bjStand();
+  };
+  window.bjSplit = function() {
+    if (!canSplit()) return;
+    wallet -= bet;
+    document.getElementById('wallet-display').textContent = formatMoney(wallet);
+    splitHands = [[playerHand[0], deck.pop()], [playerHand[1], deck.pop()]];
+    splitBets = [bet, bet];
+    activeSplit = 0;
+    msg = 'Split! Playing Hand 1 — Hit or Stand?'; msgClass = 'msg-info';
+    render();
+  };
+  window.bjNewGame = function() {
+    bet = 0; playerHand = []; dealerHand = [];
+    splitHands = null; splitBets = null; activeSplit = 0;
+    gameOver = true;
+    msg = 'Place your bet and deal!'; msgClass = 'msg-info';
+    render();
+  };
+  function revealDealer() { dealerHand.forEach(c => { delete c.faceDown; }); }
+  render();
+}
+ 
