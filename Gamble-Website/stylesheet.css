@@ -252,6 +252,7 @@ header {
   border-color: #fff #404040 #404040 #fff;
   outline: 1px solid #808080;
   padding: 0;
+  margin: 5%;
   text-align: center;
   cursor: pointer;
   transition: none;
@@ -1421,7 +1422,6 @@ header {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
     padding: 8px 10px 30px;
-    margin: 10px;
   }
   .roulette-bets {
     grid-template-columns: repeat(2, 1fr);
