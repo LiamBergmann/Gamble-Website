@@ -1,4 +1,25 @@
- 
+
+
+// ---- Streak display helper for in-game ----
+function streakBarHTML(game) {
+  const s = streaks[game], h = highscores[game];
+  const pips = Array.from({length:5}, (_,i) =>
+    `<span style="width:14px;height:14px;border-radius:50%;display:inline-block;margin:0 2px;
+      background:${i < s ? '#f5c820' : 'rgba(255,255,255,0.15)'};
+      border:2px solid ${i < s ? '#c9a84c' : 'rgba(255,255,255,0.2)'};
+      box-shadow:${i < s ? '0 0 6px rgba(245,200,32,0.6)' : 'none'};
+      transition:all 0.3s;"></span>`
+  ).join('');
+  return `<div id="ingame-streak-wrap" style="display:flex;align-items:center;gap:8px;padding:8px 14px;
+    background:rgba(0,0,0,0.25);border-radius:6px;margin-bottom:10px;flex-wrap:wrap;justify-content:center;">
+    <span style="font-family:'Tahoma',Arial,sans-serif;color:rgba(255,255,255,0.8);font-size:1rem;">🔥 Streak:</span>
+    <span style="display:inline-flex;align-items:center;">${pips}</span>
+    <span style="font-family:'Tahoma',Arial,sans-serif;color:var(--yellow);font-size:1rem;font-weight:700;">${s}</span>
+    <span style="font-family:'Tahoma',Arial,sans-serif;color:rgba(255,255,255,0.4);font-size:0.9rem;">| 🏆 Best: ${h}</span>
+    ${h >= 5 ? '<span style="font-family:\'Caveat\',cursive;color:#c9a84c;font-size:0.85rem;">✓ Cleared!</span>' : ''}
+  </div>`;
+}
+
 // ---- Modal ----
 function openModal() {
   if (!addMoneyUnlocked) {
