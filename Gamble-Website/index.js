@@ -525,4 +525,39 @@ function initBlackjack(container) {
   function revealDealer() { dealerHand.forEach(c => { delete c.faceDown; }); }
   render();
 }
- 
+
+
+// ===================== CARD UTILS =====================
+const SUITS = ['♠','♥','♦','♣'];
+const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const RED_SUITS = ['♥','♦'];
+function createDeck() {
+  let deck = [];
+  for (let s of SUITS) for (let r of RANKS) deck.push({suit:s, rank:r});
+  for (let i = deck.length-1; i > 0; i--) {
+    let j = Math.floor(Math.random()*(i+1));
+    [deck[i],deck[j]] = [deck[j],deck[i]];
+  }
+  return deck;
+}
+function cardValue(card) {
+  if (['J','Q','K'].includes(card.rank)) return 10;
+  if (card.rank === 'A') return 11;
+  return parseInt(card.rank);
+}
+function handValue(hand) {
+  let val = 0, aces = 0;
+  for (let c of hand) {
+    if (c.faceDown) continue;
+    val += cardValue(c);
+    if (c.rank === 'A') aces++;
+  }
+  while (val > 21 && aces > 0) { val -= 10; aces--; }
+  return val;
+}
+function renderCard(card) {
+  const isRed = RED_SUITS.includes(card.suit);
+  if (card.faceDown) return `<div class="card face-down"></div>`;
+  return `<div class="card ${isRed?'red':'black'}"><span class="rank">${card.rank}</span><span class="suit">${card.suit}</span></div>`;
+}
+
