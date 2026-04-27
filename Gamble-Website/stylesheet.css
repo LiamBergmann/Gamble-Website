@@ -189,8 +189,6 @@ header {
 
 /* HOME = XP Window on desktop */
 #home {
-  background: var(--xp-desktop);
-  /* background-image: url(/assets/background/Hintergrund.png); */
   padding-top: 50px;
 }
 

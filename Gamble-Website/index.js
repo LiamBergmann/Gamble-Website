@@ -173,21 +173,14 @@ function openGame(game) {
   gs.classList.add("active");
   const titles = {
     blackjack: "♠ Blackjack",
-    roulette: "🎡 Roulette",
-    slots: "🎰 Slots",
-    poker: "♠ Poker",
     horses: "🐎 Horse Racing",
-    crash: "🚀 Crash",
   };
   document.getElementById("game-title").textContent = titles[game];
   const gc = document.getElementById("game-container");
   gc.innerHTML = "";
   if (game === "blackjack") initBlackjack(gc);
-  else if (game === "roulette") initRoulette(gc);
-  else if (game === "slots") initSlots(gc);
-  else if (game === "poker") initPoker(gc);
   else if (game === "horses") initHorses(gc);
-  else if (game === "crash") initCrash(gc);
+
 }
 function closeGame() {
   document.getElementById("game-screen").classList.remove("active");

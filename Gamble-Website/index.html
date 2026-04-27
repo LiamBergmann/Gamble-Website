@@ -97,45 +97,48 @@
         <div class="unlock-text" id="unlock-text"></div>
       </div>
 
-      <div class="games-grid">
-        <div class="game-card" onclick="openGame('blackjack')">
-          <div class="card-title">
-            🃏 Blackjack
-            <div class="card-title-btns">
-              <div class="card-title-btn min">_</div>
-              <div class="card-title-btn max">□</div>
-              <div class="card-title-btn cls">✕</div>
+      <!-- GAME SELECTION -->
+      <div id="home">
+        <div class="games-grid">
+          <div class="game-card" onclick="openGame('blackjack')">
+            <div class="card-title">
+              🃏 Blackjack
+              <div class="card-title-btns">
+                <div class="card-title-btn min">_</div>
+                <div class="card-title-btn max">□</div>
+                <div class="card-title-btn cls">✕</div>
+              </div>
+            </div>
+            <span class="streak-badge" id="streak-blackjack">🔥 0</span>
+            <div class="game-card-inner">
+              <span class="game-emoji">🃏</span>
+              <h2>Blackjack</h2>
+              <p>
+                Beat the dealer to 21 without going bust. The classic card game
+                of skill and nerve.
+              </p>
+              <div class="play-btn">Play Now</div>
             </div>
           </div>
-          <span class="streak-badge" id="streak-blackjack">🔥 0</span>
-          <div class="game-card-inner">
-            <span class="game-emoji">🃏</span>
-            <h2>Blackjack</h2>
-            <p>
-              Beat the dealer to 21 without going bust. The classic card game of
-              skill and nerve.
-            </p>
-            <div class="play-btn">Play Now</div>
-          </div>
-        </div>
-        <div class="game-card" onclick="openGame('horses')">
-          <div class="card-title">
-            🐎 Horse Racing
-            <div class="card-title-btns">
-              <div class="card-title-btn min">_</div>
-              <div class="card-title-btn max">□</div>
-              <div class="card-title-btn cls">✕</div>
+          <div class="game-card" onclick="openGame('horses')">
+            <div class="card-title">
+              🐎 Horse Racing
+              <div class="card-title-btns">
+                <div class="card-title-btn min">_</div>
+                <div class="card-title-btn max">□</div>
+                <div class="card-title-btn cls">✕</div>
+              </div>
             </div>
-          </div>
-          <span class="streak-badge" id="streak-horses">🔥 0</span>
-          <div class="game-card-inner">
-            <span class="game-emoji">🐎</span>
-            <h2>Horse Racing</h2>
-            <p>
-              Pick your horse, place your bet, and cheer them to the finish
-              line.
-            </p>
-            <div class="play-btn">Play Now</div>
+            <span class="streak-badge" id="streak-horses">🔥 0</span>
+            <div class="game-card-inner">
+              <span class="game-emoji">🐎</span>
+              <h2>Horse Racing</h2>
+              <p>
+                Pick your horse, place your bet, and cheer them to the finish
+                line.
+              </p>
+              <div class="play-btn">Play Now</div>
+            </div>
           </div>
         </div>
       </div>
@@ -167,8 +170,6 @@
         </div>
         <div class="game-container" id="game-container"></div>
       </div>
-
-      
     </div>
   </body>
 </html>
