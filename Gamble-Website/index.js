@@ -564,3 +564,138 @@ function initBlackjack(container) {
 
 
 
+ 
+// ===================== HORSE RACING =====================
+function initHorses(container) {
+  const horses = [
+    { name:'Thunder Bolt', emoji:'🐴', odds:2, color:'#e74c3c' },
+    { name:'Golden Arrow', emoji:'🐎', odds:3, color:'#f0d080' },
+    { name:'Dark Shadow', emoji:'🦄', odds:5, color:'#9b59b6' },
+    { name:'Lucky Star', emoji:'⭐', odds:4, color:'#3498db' },
+    { name:'Iron Will', emoji:'🏇', odds:6, color:'#2ecc71' },
+    { name:'Wild Spirit', emoji:'🎠', odds:8, color:'#e67e22' },
+  ];
+  let bet = 0, selectedHorse = null, racing = false, positions = [], winner = null, raceFinished = false;
+ 
+  function initPositions() { positions = horses.map(()=>5); }
+ 
+  function render(msg='', msgClass='msg-info') {
+    container.innerHTML = `
+      ${streakBarHTML('horses')}
+      <div class="felt-table" style="background:radial-gradient(ellipse, #2d7a2a 0%, #1a5a18 100%)">
+        <div class="track" id="track-container">
+          ${horses.map((h,i)=>`
+            <div class="horse-lane" id="lane-${i}">
+              <div class="finish-line"></div>
+              <span class="horse-emoji" id="horse-${i}" style="left:${positions[i]||5}%">${h.emoji}</span>
+              <span class="horse-name" style="color:${h.color}">${h.name}</span>
+            </div>
+          `).join('')}
+        </div>
+        ${msg ? `<div class="message-box ${msgClass}" style="margin-top:10px">${msg}</div>` : ''}
+      </div>
+      <div class="horse-select-grid">
+        ${horses.map((h,i)=>`
+          <button class="horse-select-btn ${selectedHorse===i?'selected':''}" onclick="selectHorse(${i})">
+            ${h.emoji} ${h.name} <span style="float:right;color:#c8a820">x${h.odds}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="bet-area">
+        <span class="bet-label">Bet:</span>
+        <span class="bet-display">${formatMoney(bet)}</span>
+        ${!racing && !raceFinished ? `
+          <div class="chip chip-5" onclick="hPlaceBet(5)">$5</div>
+          <div class="chip chip-10" onclick="hPlaceBet(10)">$10</div>
+          <div class="chip chip-25" onclick="hPlaceBet(25)">$25</div>
+          <div class="chip chip-50" onclick="hPlaceBet(50)">$50</div>
+          <div class="chip chip-100" onclick="hPlaceBet(100)">$100</div>
+        ` : ''}
+      </div>
+      <div class="controls">
+        ${!raceFinished ? `
+          <button class="btn btn-gold" onclick="hRace()" ${racing||bet===0||selectedHorse===null?'disabled':''}>🏁 Race!</button>
+          <button class="btn btn-outline" onclick="hClear()" ${racing?'disabled':''}>Clear</button>
+        ` : `<button class="btn btn-gold" onclick="hNewRace()">New Race</button>`}
+      </div>
+    `;
+  }
+ 
+  initPositions();
+ 
+  window.selectHorse = function(i) {
+    if (racing || raceFinished) return;
+    selectedHorse = i; render('Place your bet and race!', 'msg-info');
+  };
+  window.hPlaceBet = function(amount) {
+    if (racing || raceFinished) return;
+    if (wallet < amount) { showToast('Not enough funds!'); return; }
+    bet += amount; wallet -= amount;
+    document.getElementById('wallet-display').textContent = formatMoney(wallet);
+    render();
+  };
+  window.hClear = function() {
+    wallet += bet; bet = 0;
+    document.getElementById('wallet-display').textContent = formatMoney(wallet);
+    render();
+  };
+  window.hRace = function() {
+    if (racing || bet === 0 || selectedHorse === null) return;
+    racing = true; raceFinished = false;
+    initPositions();
+    render('🏁 They\'re off!', 'msg-info');
+ 
+    // All horses get a similar base speed — odds only slightly influence the average.
+    // High randomness per tick means any horse can win, but favorites win more often.
+    // Base speed is nearly equal for all; odds create a small tilt, not a guarantee.
+    const baseSpeed = 1.2;
+    const speeds = horses.map(h => {
+      // Favorite bonus: small tilt toward lower-odds horses
+      const favBonus = (10 - h.odds) * 0.04; // Thunder Bolt(2): +0.32, Wild Spirit(8): +0.08
+      return baseSpeed + favBonus;
+    });
+ 
+    winner = null;
+    const iv = setInterval(() => {
+      let finishers = [];
+      horses.forEach((h, i) => {
+        // Large random variance each tick — any horse can surge
+        const variance = Math.random() * 2.2;
+        positions[i] = Math.min(positions[i] + speeds[i] * variance, 85);
+        const el = document.getElementById(`horse-${i}`);
+        if (el) el.style.left = positions[i] + '%';
+        if (positions[i] >= 85) finishers.push(i);
+      });
+ 
+      if (finishers.length > 0) {
+        // If multiple horses cross the line in the same tick, pick randomly among them
+        winner = finishers[Math.floor(Math.random() * finishers.length)];
+        clearInterval(iv);
+        racing = false; raceFinished = true;
+        const w = horses[winner];
+        if (winner === selectedHorse) {
+          const win = bet * w.odds;
+          updateWallet(win);
+          render(`🏆 ${w.emoji} ${w.name} wins! You win ${formatMoney(win)}!`, 'msg-win');
+          recordWin('horses');
+        } else {
+          render(`🏁 ${w.emoji} ${w.name} wins! Better luck next time.`, 'msg-lose');
+          recordLoss('horses');
+        }
+        bet = 0;
+      }
+    }, 160);
+  };
+  window.hNewRace = function() {
+    bet = 0; selectedHorse = null; racing = false; raceFinished = false;
+    initPositions();
+    render('Pick your horse and place your bet!', 'msg-info');
+  };
+  render('Pick your horse and place your bet!', 'msg-info');
+}
+ 
+// Close modal on outside click
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+ 
