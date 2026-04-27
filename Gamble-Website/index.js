@@ -1,4 +1,60 @@
+// ---- Streak / Highscore logic ----
+function recordWin(game) {
+  streaks[game]++;
+  const s = streaks[game];
+  if (s > highscores[game]) highscores[game] = s;
  
+  // Unlock add-money button on very first win
+  if (!addMoneyUnlocked) {
+    addMoneyUnlocked = true;
+    document.getElementById('modal-subtitle').textContent = 'Unlock more options by reaching streaks of 5!';
+    const btn = document.querySelector('.add-money-btn');
+    btn.classList.remove('locked-btn');
+    showUnlockNotif(false, '🎉 Add Money feature unlocked! Tap + to add funds!');
+  }
+ 
+  // Check if this game just hit exactly 5 (clears for the first time each time highscore reaches 5)
+  // We track clears per game via highscores reaching 5 for the first time
+  if (s === 5) {
+    // Check if this game hadn't contributed to gamesCleared yet
+    const prevCleared = gamesCleared;
+    gamesCleared = GAMES.filter(g => highscores[g] >= 5).length;
+    if (gamesCleared > prevCleared) {
+      // Unlock next option
+      unlockNextOption();
+    }
+  }
+ 
+  updateStreakBadge(game);
+  updateStreakDisplay(game);
+}
+ 
+function recordLoss(game) {
+  streaks[game] = 0;
+  updateStreakBadge(game);
+  updateStreakDisplay(game);
+}
+ 
+function updateStreakBadge(game) {
+  const el = document.getElementById('streak-' + game);
+  if (!el) return;
+  const s = streaks[game];
+  const h = highscores[game];
+  el.textContent = `🔥 ${s}`;
+  if (h >= 5) el.classList.add('max');
+  else if (s >= 3) el.classList.add('hot');
+  else { el.classList.remove('hot'); el.classList.remove('max'); }
+}
+ 
+function updateStreakDisplay(game) {
+  // Update in-game streak display if it exists
+  const el = document.getElementById('ingame-streak');
+  if (el) {
+    el.textContent = `🔥 Streak: ${streaks[game]}  |  🏆 Best: ${highscores[game]}`;
+  }
+}
+
+
 function unlockNextOption() {
   const idx = unlockedOptions; // 0-based index of button to unlock
   if (idx >= 6) return;
