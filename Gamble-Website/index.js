@@ -191,7 +191,6 @@ function closeGame() {
 // ===================== RULES =====================
 const RULES = {
   blackjack: {
-    title: "♠ Blackjack Rules",
     sections: [
       {
         h: "🎯 Goal",
@@ -227,7 +226,6 @@ const RULES = {
     ],
   },
   horses: {
-    title: "🐎 Horse Racing Rules",
     sections: [
       {
         h: "🎯 Goal",
@@ -248,12 +246,12 @@ const RULES = {
       {
         h: "🐴 The Horses",
         ul: [
-          "Thunder Bolt x2 (favorite)",
-          "Golden Arrow x3",
-          "Lucky Star x4",
-          "Dark Shadow x5",
-          "Iron Will x6",
-          "Wild Spirit x8 (long shot)",
+          "Alogo x2 (favorite)",
+          "JimmyPferdo x3",
+          "Johnny Blue x4",
+          "Lerry x5",
+          "Margepferd x6",
+          "Paule x8 (long shot)",
         ],
       },
       {
@@ -288,37 +286,56 @@ function closeRules(e) {
 
 
 // ===================== CARD UTILS =====================
+const CARD_IMG_FOLDER = 'assets/BlackJack';
+const CARD_IMG_EXT = '.png';
+const CARD_BACK_IMG = `${CARD_IMG_FOLDER}/CARD_BACK${CARD_IMG_EXT}`;
+const SUIT_NAMES = { '♠': 'Pik', '♥': 'Herz', '♦': 'Karo', '♣': 'Kreuz' };
 const SUITS = ['♠','♥','♦','♣'];
-const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-const RED_SUITS = ['♥','♦'];
+const RANKS = ['A','2','3','4','5','6','7','8','9','10','Jack','Queen','King'];
+
 function createDeck() {
   let deck = [];
-  for (let s of SUITS) for (let r of RANKS) deck.push({suit:s, rank:r});
-  for (let i = deck.length-1; i > 0; i--) {
-    let j = Math.floor(Math.random()*(i+1));
-    [deck[i],deck[j]] = [deck[j],deck[i]];
+  for (let s of SUITS) for (let r of RANKS) deck.push({ suit: s, rank: r });
+  for (let i = deck.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
   }
   return deck;
 }
-function cardValue(card) {
-  if (['J','Q','K'].includes(card.rank)) return 10;
-  if (card.rank === 'A') return 11;
-  return parseInt(card.rank);
+
+function cardImageName(card) {
+  const suitName = SUIT_NAMES[card.suit] || card.suit;
+  return `${suitName}_${card.rank}${CARD_IMG_EXT}`;
 }
+
+function cardImagePath(card) {
+  return `${CARD_IMG_FOLDER}/${cardImageName(card)}`;
+}
+
+function cardValue(card) {
+  if (['Jack','Queen','King'].includes(card.rank)) return 10;
+  if (card.rank === 'Ace' || card.rank === 'A') return 11;
+  return parseInt(card.rank, 10) || 0;
+}
+
 function handValue(hand) {
   let val = 0, aces = 0;
   for (let c of hand) {
     if (c.faceDown) continue;
     val += cardValue(c);
-    if (c.rank === 'A') aces++;
+    if (['Ace','A'].includes(c.rank)) aces++;
   }
   while (val > 21 && aces > 0) { val -= 10; aces--; }
   return val;
 }
+
 function renderCard(card) {
-  const isRed = RED_SUITS.includes(card.suit);
-  if (card.faceDown) return `<div class="card face-down"></div>`;
-  return `<div class="card ${isRed?'red':'black'}"><span class="rank">${card.rank}</span><span class="suit">${card.suit}</span></div>`;
+  if (card.faceDown) {
+    return `<div class="card face-down"><img src="${CARD_BACK_IMG}" alt="Card back"></div>`;
+  }
+  return `<div class="card card-face">
+    <img src="${cardImagePath(card)}" alt="${card.rank} ${card.suit}">
+  </div>`;
 }
 
 
@@ -554,19 +571,16 @@ function initBlackjack(container) {
   function revealDealer() { dealerHand.forEach(c => { delete c.faceDown; }); }
   render();
 }
-
-
-
  
 // ===================== HORSE RACING =====================
 function initHorses(container) {
   const horses = [
-    { name:'Thunder Bolt', emoji:'🐴', odds:2, color:'#e74c3c' },
-    { name:'Golden Arrow', emoji:'🐎', odds:3, color:'#f0d080' },
-    { name:'Dark Shadow', emoji:'🦄', odds:5, color:'#9b59b6' },
-    { name:'Lucky Star', emoji:'⭐', odds:4, color:'#3498db' },
-    { name:'Iron Will', emoji:'🏇', odds:6, color:'#2ecc71' },
-    { name:'Wild Spirit', emoji:'🎠', odds:8, color:'#e67e22' },
+    { name:'Alogo', img:'Alogo.png', odds:2, color:'#e74c3c' },
+    { name:'JimmyPferdo', img:'JimmyPferdo.png', odds:3, color:'#f0d080' },
+    { name:'Johnny Blue', img:'Johnny_Blue.png', odds:5, color:'#9b59b6' },
+    { name:'Lerry', img:'Lerry.png', odds:4, color:'#3498db' },
+    { name:'Margepferd', img:'Margepferd.png', odds:6, color:'#2ecc71' },
+    { name:'Paule', img:'Paule.png', odds:8, color:'#e67e22' },
   ];
   let bet = 0, selectedHorse = null, racing = false, positions = [], winner = null, raceFinished = false;
  
@@ -576,11 +590,13 @@ function initHorses(container) {
     container.innerHTML = `
       ${streakBarHTML('horses')}
       <div class="felt-table" style="background:radial-gradient(ellipse, #2d7a2a 0%, #1a5a18 100%)">
-        <div class="track" id="track-container">
+        <div class="track horse-track" id="track-container">
           ${horses.map((h,i)=>`
             <div class="horse-lane" id="lane-${i}">
               <div class="finish-line"></div>
-              <span class="horse-emoji" id="horse-${i}" style="left:${positions[i]||5}%">${h.emoji}</span>
+              <span class="horse-emoji" id="horse-${i}" style="left:${positions[i]||5}%">
+                <img class="horse-select-icon" src="assets/Pferde_png/${h.img}" alt="${h.name}" />
+              </span>
               <span class="horse-name" style="color:${h.color}">${h.name}</span>
             </div>
           `).join('')}
@@ -590,7 +606,7 @@ function initHorses(container) {
       <div class="horse-select-grid">
         ${horses.map((h,i)=>`
           <button class="horse-select-btn ${selectedHorse===i?'selected':''}" onclick="selectHorse(${i})">
-            ${h.emoji} ${h.name} <span style="float:right;color:#c8a820">x${h.odds}</span>
+            ${h.name} <span style="float:right;color:#c8a820">x${h.odds}</span>
           </button>
         `).join('')}
       </div>
@@ -669,10 +685,10 @@ function initHorses(container) {
         if (winner === selectedHorse) {
           const win = bet * w.odds;
           updateWallet(win);
-          render(`🏆 ${w.emoji} ${w.name} wins! You win ${formatMoney(win)}!`, 'msg-win');
+          render(`🏆 ${w.name} wins! You win ${formatMoney(win)}!`, 'msg-win');
           recordWin('horses');
         } else {
-          render(`🏁 ${w.emoji} ${w.name} wins! Better luck next time.`, 'msg-lose');
+          render(`🏁 ${w.name} wins! Better luck next time.`, 'msg-lose');
           recordLoss('horses');
         }
         bet = 0;
@@ -691,4 +707,3 @@ function initHorses(container) {
 document.getElementById('modal-overlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
- 
