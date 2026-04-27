@@ -1,3 +1,28 @@
+// ===================== GLOBAL STATE =====================
+let wallet = 1000;
+ 
+// Highscore system
+const GAMES = ['blackjack','roulette','slots','poker','horses','crash'];
+const AMOUNTS = [100, 250, 500, 1000, 5000, 10000];
+const AMOUNT_LABELS = ['$100','$250','$500','$1,000','$5,000','$10,000'];
+ 
+// streak: current consecutive wins per game
+// highscore: best streak ever per game (must reach 5 to count as "cleared")
+let streaks   = { blackjack:0, roulette:0, slots:0, poker:0, horses:0, crash:0 };
+let highscores = { blackjack:0, roulette:0, slots:0, poker:0, horses:0, crash:0 };
+let gamesCleared = 0;      // how many games have reached streak ≥ 5
+let unlockedOptions = 0;   // how many add-money options are unlocked (0–6)
+let addMoneyUnlocked = false; // true after first win ever
+ 
+function formatMoney(n) { return '$' + n.toLocaleString('en-US'); }
+ 
+function updateWallet(amount) {
+  wallet += amount;
+  if (wallet < 0) wallet = 0;
+  document.getElementById('wallet-display').textContent = formatMoney(wallet);
+}
+ 
+
 // ---- Streak / Highscore logic ----
 function recordWin(game) {
   streaks[game]++;
