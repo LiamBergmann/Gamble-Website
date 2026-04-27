@@ -1,4 +1,46 @@
-
+ 
+function unlockNextOption() {
+  const idx = unlockedOptions; // 0-based index of button to unlock
+  if (idx >= 6) return;
+ 
+  unlockedOptions++;
+  const btn = document.getElementById('amt-' + idx);
+  if (btn) {
+    btn.classList.remove('locked');
+    btn.disabled = false;
+    btn.textContent = AMOUNT_LABELS[idx];
+  }
+ 
+  // Show notification
+  const allDone = unlockedOptions === 6;
+  showUnlockNotif(
+    allDone,
+    allDone
+      ? '🎊 All options unlocked! You are a true high roller!'
+      : `💸 ${AMOUNT_LABELS[idx]} unlocked! Keep winning to unlock more!`
+  );
+ 
+  // Update subtitle
+  if (!allDone) {
+    document.getElementById('modal-subtitle').textContent =
+      `${unlockedOptions}/6 options unlocked. Reach streak of 5 in another game!`;
+  } else {
+    document.getElementById('modal-subtitle').textContent = 'All options unlocked! 🎊';
+  }
+}
+ 
+function showUnlockNotif(allDone, text) {
+  const el = document.getElementById('unlock-notif');
+  const icon = document.getElementById('unlock-icon');
+  const textEl = document.getElementById('unlock-text');
+  textEl.textContent = text;
+  icon.textContent = allDone ? '🏆' : '🔓';
+  el.className = 'unlock-notif' + (allDone ? ' all-unlocked' : '');
+  // Force reflow
+  void el.offsetWidth;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
 
 // ---- Streak display helper for in-game ----
 function streakBarHTML(game) {
