@@ -1,3 +1,25 @@
+ 
+// ---- Modal ----
+function openModal() {
+  if (!addMoneyUnlocked) {
+    showToast('Win a game first to unlock! 🎮');
+    return;
+  }
+  document.getElementById('modal-overlay').classList.add('active');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
+function addMoney(amount) {
+  updateWallet(amount);
+  showToast(`${formatMoney(amount)} added! 💰`);
+  closeModal();
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+ 
 // ===================== NAVIGATION =====================
 let currentGame = "";
 function openGame(game) {
