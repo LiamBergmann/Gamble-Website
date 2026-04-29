@@ -2,26 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Damit die Seite auf Handys richtig angezeigt wird -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doodle Casino</title>
+
+    <!-- Kleines Icon das im Browser-Tab angezeigt wird -->
     <link rel="icon" href="assets/logo/favicon.png" type="image/x-icon" />
+
+    <!-- Schriftarten von Google laden (handschriftlicher Stil zum Casino-Thema) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=P"
-      atrick+Hand&display="swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Eigene CSS-Datei für das Aussehen der Seite -->
     <link rel="stylesheet" href="stylesheet.css" />
+
+    <!-- Eigene JavaScript-Datei für die gesamte Spiellogik -->
     <script src="index.js"></script>
   </head>
+
   <body>
+    <!-- Alles auf der Seite steckt in diesem Haupt-Container -->
     <div id="allContent">
+
+      <!-- ===== KOPFZEILE (Logo + Geldbeutel) ===== -->
       <header>
+        <!-- Logo – Klick darauf bringt den Spieler zur Spielauswahl zurück -->
         <div class="logo" onclick="closeGame()">
           <img src="assets/logo/LogoUnternanderV2.png" alt="Doodle Casino Logo" height="50">
         </div>
+
+        <!-- Geldbeutel-Anzeige oben rechts -->
         <div class="wallet">
           <span class="wallet-icon">💰</span>
+          <!-- Hier wird der aktuelle Kontostand angezeigt (wird per JS aktualisiert) -->
           <span class="wallet-amount" id="wallet-display">$1,000</span>
+
+          <!-- Geld-hinzufügen-Button – ist anfangs gesperrt, bis man ein Spiel gewinnt -->
           <button
             class="add-money-btn locked-btn"
             onclick="openModal()"
@@ -32,139 +50,120 @@
         </div>
       </header>
 
-      <!-- ADD MONEY MODAL -->
+      <!-- ===== POP-UP: GELD HINZUFÜGEN ===== -->
+      <!-- Wird erst sichtbar, wenn man auf den "+" Button klickt -->
       <div class="modal-overlay" id="modal-overlay">
         <div class="modal">
           <div class="modal-body">
             <h2>Add Funds</h2>
+            <!-- Hinweistext – ändert sich, sobald man ein Spiel gewonnen hat -->
             <p id="modal-subtitle">Win your first game to unlock!</p>
+
+            <!-- Betragsoptionen – alle gesperrt bis man ein Spiel gewinnt -->
             <div class="amount-options">
-              <button
-                class="amount-btn locked"
-                id="amt-0"
-                onclick="addMoney(100)"
-                disabled
-              >
-                🔒 $100
-              </button>
-              <button
-                class="amount-btn locked"
-                id="amt-1"
-                onclick="addMoney(250)"
-                disabled
-              >
-                🔒 $250
-              </button>
-              <button
-                class="amount-btn locked"
-                id="amt-2"
-                onclick="addMoney(500)"
-                disabled
-              >
-                🔒 $500
-              </button>
-              <button
-                class="amount-btn locked"
-                id="amt-3"
-                onclick="addMoney(1000)"
-                disabled
-              >
-                🔒 $1,000
-              </button>
-              <button
-                class="amount-btn locked"
-                id="amt-4"
-                onclick="addMoney(5000)"
-                disabled
-              >
-                🔒 $5,000
-              </button>
-              <button
-                class="amount-btn locked"
-                id="amt-5"
-                onclick="addMoney(10000)"
-                disabled
-              >
-                🔒 $10,000
-              </button>
+              <button class="amount-btn locked" id="amt-0" onclick="addMoney(100)"   disabled>🔒 $100</button>
+              <button class="amount-btn locked" id="amt-1" onclick="addMoney(250)"   disabled>🔒 $250</button>
+              <button class="amount-btn locked" id="amt-2" onclick="addMoney(500)"   disabled>🔒 $500</button>
+              <button class="amount-btn locked" id="amt-3" onclick="addMoney(1000)"  disabled>🔒 $1,000</button>
+              <button class="amount-btn locked" id="amt-4" onclick="addMoney(5000)"  disabled>🔒 $5,000</button>
+              <button class="amount-btn locked" id="amt-5" onclick="addMoney(10000)" disabled>🔒 $10,000</button>
             </div>
+
+            <!-- Schließt das Pop-up ohne etwas zu tun -->
             <button class="modal-close" onclick="closeModal()">Cancel</button>
           </div>
         </div>
       </div>
 
-      <!-- UNLOCK NOTIFICATION -->
+      <!-- ===== BENACHRICHTIGUNG: ETWAS WURDE FREIGESCHALTET ===== -->
+      <!-- Erscheint kurz am Bildschirm, wenn ein Button oder Feature freigeschaltet wird -->
       <div class="unlock-notif" id="unlock-notif">
         <div class="unlock-icon" id="unlock-icon">🔓</div>
         <div class="unlock-text" id="unlock-text"></div>
       </div>
 
-      <!-- GAME SELECTION -->
+      <!-- ===== STARTSEITE: SPIELAUSWAHL ===== -->
+      <!-- Zeigt alle verfügbaren Spiele als Karten an -->
       <div id="home" class="screen active">
         <div class="games-grid">
+
+          <!-- Spielkarte: Blackjack -->
           <div class="game-card" onclick="openGame('blackjack')">
             <div class="card-title">
               <img src="assets/BlackJack/Blackjackicon.png" alt="BJ_LOGO" width="25" height="25">
               Blackjack
             </div>
+            <!-- Gewinnsträhnen-Anzeige (z.B. 🔥 3 = 3 Siege in Folge) -->
             <span class="streak-badge" id="streak-blackjack">🔥 0</span>
             <div class="game-card-inner">
-              <span class="game-emoji"><img src="assets/BlackJack/Blackjackicon.png" alt="BJ_LOGO" width="100" height="100"></span>
+              <span class="game-emoji">
+                <img src="assets/BlackJack/Blackjackicon.png" alt="BJ_LOGO" width="100" height="100">
+              </span>
               <h2>Blackjack</h2>
-              <p>
-                Beat the dealer to 21 without going bust. The classic card game
-                of skill and nerve.
-              </p>
+              <p>Beat the dealer to 21 without going bust. The classic card game of skill and nerve.</p>
               <div class="play-btn">Play Now</div>
             </div>
           </div>
+
+          <!-- Spielkarte: Pferderennen -->
           <div class="game-card" onclick="openGame('horses')">
             <div class="card-title">
-              <img src="assets/Pferde_png/Pferdeicon.png" alt="BJ_LOGO" width="25" height="25"> Horse Racing
+              <img src="assets/Pferde_png/Pferdeicon.png" alt="BJ_LOGO" width="25" height="25">
+              Horse Racing
             </div>
+            <!-- Gewinnsträhnen-Anzeige für Pferderennen -->
             <span class="streak-badge" id="streak-horses">🔥 0</span>
             <div class="game-card-inner">
-              <span class="game-emoji"><img src="assets/Pferde_png/Pferdeicon.png" alt="BJ_LOGO" width="150" height="150"></span>
+              <span class="game-emoji">
+                <img src="assets/Pferde_png/Pferdeicon.png" alt="BJ_LOGO" width="150" height="150">
+              </span>
               <h2>Horse Racing</h2>
-              <p>
-                Pick your horse, place your bet, and cheer them to the finish
-                line.
-              </p>
+              <p>Pick your horse, place your bet, and cheer them to the finish line.</p>
               <div class="play-btn">Play Now</div>
             </div>
           </div>
+
         </div>
       </div>
 
-      <!-- RULES MODAL -->
+      <!-- ===== POP-UP: SPIELREGELN ===== -->
+      <!-- Klick außerhalb des weißen Felds schließt das Pop-up (closeRules prüft das) -->
       <div class="rules-overlay" id="rules-overlay" onclick="closeRules(event)">
         <div class="rules-modal" id="rules-modal">
+          <!-- Titelleiste des Regelmenüs -->
           <div class="rules-modal-titlebar" id="rules-modal-titlebar">
             📋 How to Play
           </div>
           <div class="rules-modal-body">
+            <!-- Spielname wird per JS eingefügt -->
             <h2 id="rules-title">Rules</h2>
+            <!-- Regeltext wird per JS eingefügt (je nach aktivem Spiel) -->
             <div id="rules-body"></div>
             <button class="rules-close" onclick="closeRulesBtn()">OK</button>
           </div>
         </div>
       </div>
 
-      <!-- GAME SCREEN -->
+      <!-- ===== SPIELBILDSCHIRM ===== -->
+      <!-- Wird angezeigt, sobald der Spieler ein Spiel öffnet -->
       <div class="screen" id="game-screen">
         <div class="game-header">
-          <button class="back-btn" onclick="closeGame()">
-            ← Back to Lobby
-          </button>
+          <!-- Zurück zur Spielauswahl -->
+          <button class="back-btn" onclick="closeGame()">← Back to Lobby</button>
+          <!-- Name des aktuell gespielten Spiels (wird per JS gesetzt) -->
           <div class="game-title" id="game-title"></div>
-          <button class="rules-btn" onclick="openRules()" title="How to play">
-            ?
-          </button>
+          <!-- Öffnet die Regeln für das aktuelle Spiel -->
+          <button class="rules-btn" onclick="openRules()" title="How to play">?</button>
         </div>
+        <!-- Hier wird der eigentliche Spielinhalt per JS geladen -->
         <div class="game-container" id="game-container"></div>
       </div>
-    </div>
 
+    </div><!-- Ende #allContent -->
+
+    <!-- ===== TOAST-NACHRICHT ===== -->
+    <!-- Kurze Einblend-Benachrichtigung (z.B. "Du hast gewonnen!") -->
     <div class="toast" id="toast"></div>
+
   </body>
 </html>
