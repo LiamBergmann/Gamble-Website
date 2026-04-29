@@ -1,55 +1,61 @@
-/* ===== WINDOWS XP THEME ===== */ 
-/*Wenn wir XP Sagen meinen wir damit eine art windows XP style*/
+/* ===== WINDOWS XP THEME ===== */
+/* Der gesamte Stil ist an Windows XP angelehnt (Fenster, Buttons, Titelleisten) */
+
+/* Alle Elemente: Größenberechnung vereinheitlichen, Abstände zurücksetzen */
 * {
-  box-sizing: border-box;
+  box-sizing: border-box; /* Rahmen und Innenabstand werden in die Breite eingerechnet */
   margin: 0;
   padding: 0;
 }
 
-/* Front in die seite hochladen */
+/* ===== EIGENE SCHRIFTART LADEN ===== */
+/* Die Datei "Inkfree.ttf" aus dem assets-Ordner als Schriftart einbinden */
 @font-face {
-  font-family: 'Ink Free';
-  src: url('assets/font/Inkfree.ttf') format('truetype');
+  font-family: "Ink Free";
+  src: url("assets/font/Inkfree.ttf") format("truetype");
 }
 
+/* ===== GRUNDLAYOUT DER SEITE ===== */
 body {
-  font-family: 'Ink Free', cursive;
+  font-family: "Ink Free", cursive; /* Handschriftliche Schrift überall */
   font-size: 11px;
   background: var(--xp-desktop);
-  background-image: url(/assets/background/Hintergrund.png);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  min-height: 100vh;
-  overflow-x: hidden;
+  background-image: url(/assets/background/Hintergrund.png); /* Hintergrundbild */
+  background-repeat: no-repeat; /* Bild wird nicht gekachelt */
+  background-attachment: fixed; /* Hintergrund scrollt nicht mit */
+  background-size: cover; /* Bild füllt den ganzen Bildschirm */
+  min-height: 100vh; /* Mindestens so hoch wie der Bildschirm */
+  overflow-x: hidden; /* Kein horizontales Scrollen */
 }
 
-/* XP BUTTONS */
+/* ===== XP-STIL BUTTONS (Basis) ===== */
 .xp-btn {
   font-size: 11px;
   font-weight: normal;
   padding: 3px 10px;
-  cursor: pointer;
+  cursor: pointer; /* Mauszeiger wird zur Hand beim Hovern */
   color: #000;
   min-height: 23px;
 }
 .xp-btn:active {
+  /* Beim Klicken: Rahmen dreht sich um (wirkt gedrückt) */
   border-color: #808080 #fff #fff #808080;
   padding: 4px 9px 2px 11px;
 }
 .xp-btn:disabled {
-  opacity: 0.5;
-  cursor: default;
+  opacity: 0.5; /* Gesperrte Buttons werden halbtransparent */
+  cursor: default; /* Kein Zeigefinger-Cursor bei gesperrten Buttons */
 }
 
-/* HEADER "Taskbar" */
+/* ===== KOPFZEILE (wirkt wie die XP Taskleiste) ===== */
 header {
-  position: fixed;
+  position: fixed; /* Bleibt immer oben stehen beim Scrollen */
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 100; /* Liegt über allem anderen */
   height: 50px;
+  /* Blauer XP-Taskleisten-Farbverlauf */
   background: linear-gradient(
     180deg,
     #2a82d4 0%,
@@ -57,20 +63,21 @@ header {
     #0f4ab5 95%,
     #0a3590 100%
   );
-  border-top: 1px solid #74b4f4;
+  border-top: 1px solid #74b4f4; /* Helle Linie ganz oben */
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  justify-content: space-between; /* Logo links, Wallet rechts */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Schatten nach unten */
 }
 
-/* Start button style logo */
+/* ===== LOGO (sieht aus wie der XP-Startbutton) ===== */
 .logo {
+  /* Grüner Farbverlauf wie der Windows XP Start-Button */
   background: linear-gradient(180deg, #6dbb35 0%, #3a9915 40%, #2e8012 100%);
   border: 1px solid #1a5c08;
-  border-radius: 0 12px 12px 0;
+  border-radius: 0 12px 12px 0; /* Rechts abgerundet wie der Start-Button */
   padding: 3px 14px 3px 10px;
-  font-family: 'Ink Free', cursive;
+  font-family: "Ink Free", cursive;
   font-size: 13px;
   font-weight: bold;
   color: white;
@@ -85,37 +92,43 @@ header {
   cursor: pointer;
 }
 .logo span {
-  color: #ffde00;
+  color: #ffde00; /* Gelbe Akzentfarbe im Logo-Text */
 }
 
-/* Wallet = system tray */
+/* ===== GELDBEUTEL-ANZEIGE (wirkt wie die XP-Systemtray rechts) ===== */
 .wallet {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(180deg, #0a3da0 0%, #0c4cc0 100%);
+  background: linear-gradient(
+    180deg,
+    #0a3da0 0%,
+    #0c4cc0 100%
+  ); /* Dunkles Blau */
   border: 1px solid #1a5cd8;
   border-radius: 2px;
   padding: 3px 10px;
   height: 28px;
-  font-family: 'Ink Free', cursive;
+  font-family: "Ink Free", cursive;
   font-size: 11px;
   color: white;
 }
 .wallet-icon {
-  font-size: 14px;
+  font-size: 14px; /* Emoji etwas größer */
 }
 .wallet-amount {
   font-size: 12px;
   font-weight: bold;
-  color: #7dff7d;
+  color: #7dff7d; /* Grüne Zahl = Geldanzeige */
   min-width: 70px;
   text-align: right;
 }
+
+/* "+" Button zum Geld hinzufügen */
 .add-money-btn {
   width: 20px;
   height: 20px;
-  background: linear-gradient(180deg, #5cb85c 0%, #3a9a3a 100%);
+  background: linear-gradient(180deg, #5cb85c 0%, #3a9a3a 100%); /* Grün */
   border: 1px solid #1a6a1a;
   border-radius: 2px;
   color: white;
@@ -128,31 +141,35 @@ header {
   line-height: 1;
 }
 .add-money-btn:hover {
-  background: linear-gradient(180deg, #6dc86d 0%, #4ab04a 100%);
+  background: linear-gradient(
+    180deg,
+    #6dc86d 0%,
+    #4ab04a 100%
+  ); /* Etwas heller beim Hovern */
 }
 .add-money-btn.locked-btn {
+  /* Grau = gesperrt, noch kein Spiel gewonnen */
   background: linear-gradient(180deg, #888 0%, #666 100%);
-  cursor: not-allowed;
+  cursor: not-allowed; /* "Verboten"-Cursor */
 }
 
-/* SCREENS */
+/* ===== BILDSCHIRME (Home / Spielscreen) ===== */
 .screen {
-  display: none;
+  display: none; /* Standardmäßig versteckt */
   min-height: 100vh;
-  padding-top: 44px;
+  padding-top: 44px; /* Damit Inhalt nicht hinter der Kopfzeile steckt */
 }
 .screen.active {
-  display: block;
+  display: block; /* Nur der aktive Bildschirm wird angezeigt */
 }
 
-
-
-/* HOME = XP Window on desktop */
+/* ===== STARTSEITE (Spielauswahl) ===== */
 #home {
   padding-top: 50px;
   background: url(assets/background/Hintergrund.png);
 }
 
+/* Optionaler Hero-Bereich oben auf der Startseite */
 .home-hero {
   text-align: center;
   padding: 20px 20px 14px;
@@ -161,14 +178,12 @@ header {
   display: none;
 }
 .home-hero h1 {
-  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-size: clamp(1.8rem, 5vw, 3rem); /* Passt sich der Bildschirmbreite an */
   font-weight: bold;
   color: white;
   text-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.7),
     0 0 20px rgba(100, 180, 255, 0.5);
-  transform: none;
-  text-decoration: none;
   letter-spacing: 1px;
 }
 .home-hero p {
@@ -177,6 +192,8 @@ header {
   margin-top: 4px;
   letter-spacing: 1px;
 }
+
+/* Dekorative Trennlinie mit Kartensymbolen */
 .divider {
   width: 200px;
   height: 1px;
@@ -184,15 +201,16 @@ header {
   margin: 10px auto;
 }
 .divider::after {
-  content: "♠ ♥ ♦ ♣";
+  content: "♠ ♥ ♦ ♣"; /* Kartensymbole als Dekoration */
   background: transparent;
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.8rem;
 }
 
-/* Game grid*/
+/* ===== SPIELKARTEN-RASTER (Spielauswahl) ===== */
 .games-grid {
   display: grid;
+  /* Automatisch so viele Spalten wie reinpassen, mind. 200px breit */
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   max-width: 1000px;
@@ -200,24 +218,23 @@ header {
   padding: 10px 20px 40px;
 }
 
-/* XP Window style game cards */
+/* ===== EINZELNE SPIELKARTE (wirkt wie ein XP-Fenster) ===== */
 .game-card {
-  background-image: url('assets/background/window.png');
+  /* Hintergrundbild simuliert ein XP-Fenster mit Titelleiste */
+  background-image: url("assets/background/window.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   padding: 0;
   margin: 5%;
   text-align: center;
   cursor: pointer;
-  transition: none;
   position: relative;
-  transform: none !important;
-  border-radius: 14px 10px 0 0;
+  border-radius: 14px 10px 0 0; /* Abgerundete Ecken oben (wie XP-Fenster) */
 }
-/* Title bar text*/
 .game-card::after {
   display: none;
 }
+/* Hover-Effekt: orangefarbener Rahmen + leichter Schatten */
 .game-card:hover {
   outline: 1px solid #ff8c00;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
@@ -225,8 +242,6 @@ header {
 }
 .game-card-inner {
   padding: 16px 14px 14px;
-  background-image: none;
-  background-repeat: no-repeat;
 }
 .game-card h2 {
   font-size: 20px;
@@ -239,29 +254,31 @@ header {
   font-size: 18px;
   line-height: 1.4;
 }
+
+/* "Play Now"-Button auf der Spielkarte */
 .play-btn {
   margin-top: 10px;
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
+  /* Button-Bild als Hintergrund */
+  background: url("assets/universal/btn.png") center / 100% 100% no-repeat;
   display: inline-block;
   padding: 4px 18px;
   color: #000;
   font-size: 15px;
   font-weight: bold;
-  transition: none;
 }
+/* Button bekommt beim Hovern einen goldenen Farbton */
 .game-card:hover .play-btn {
   filter: sepia(1) saturate(3) hue-rotate(5deg);
   color: #000;
-  transform: none;
 }
 
-/* TITLE BAR fake label — injected via JS card-title class */
+/* ===== FENSTERTITEL DER SPIELKARTE (per JS eingefügt) ===== */
 .card-title {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 26px;
+  height: 26px; /* Höhe der Titelleiste */
   display: flex;
   align-items: center;
   padding: 0 8px;
@@ -269,9 +286,11 @@ header {
   font-weight: bold;
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
+  pointer-events: none; /* Klicks gehen durch zur Karte darunter */
   gap: 6px;
 }
+
+/* Fenster-Buttons (Minimieren / Maximieren / Schließen) – rein dekorativ */
 .card-title-btns {
   position: absolute;
   top: 4px;
@@ -289,7 +308,6 @@ header {
   align-items: center;
   justify-content: center;
   cursor: default;
-  color: #000;
   font-weight: bold;
 }
 .card-title-btn.min {
@@ -301,17 +319,16 @@ header {
 .card-title-btn.cls {
   background: linear-gradient(180deg, #e86060 0%, #c02020 100%);
   color: white;
-}
+} /* Rot = Schließen */
 
-/* STREAK BADGES */
+/* ===== GEWINNSTRÄHNEN-ABZEICHEN ===== */
 .streak-badge {
   position: absolute;
-  top: 33px;
+  top: 33px; /* Direkt unter der Titelleiste */
   right: 14px;
-  font-family: "ink free";
   font-size: 10px;
   font-weight: bold;
-  background: #fff4c0;
+  background: #fff4c0; /* Gelb */
   color: #804000;
   padding: 1px 6px;
   border: 1px solid #c08000;
@@ -320,16 +337,18 @@ header {
   border-radius: 2px;
 }
 .streak-badge.hot {
+  /* Bei hoher Strähne: rot und blinkend */
   background: #ffe0e0;
   color: #800000;
   border-color: #c00000;
   animation: streakPulse 0.8s infinite alternate;
 }
 .streak-badge.max {
-  background: #c9a84c;
+  background: #c9a84c; /* Gold bei maximaler Strähne */
   color: #000;
   border-color: #806000;
 }
+/* Blink-Animation für heiße Strähnen */
 @keyframes streakPulse {
   from {
     opacity: 1;
@@ -339,11 +358,9 @@ header {
   }
 }
 
-/* GAME SCREEN = XP window */
+/* ===== SPIELBILDSCHIRM (wirkt wie ein geöffnetes XP-Fenster) ===== */
 #game-screen {
-  background: var(--xp-desktop);
   background: rgb(94, 172, 6) url(assets/background/Hintergrund.png) no-repeat;
-  background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   display: none;
@@ -353,28 +370,26 @@ header {
   min-height: 100vh;
 }
 #game-screen.active {
-  display: flex;
-  background: rgb(94, 172, 6) url(assets/background/Hintergrund.png) no-repeat;
+  display: flex; /* Sichtbar wenn ein Spiel geöffnet ist */
 }
 
-/* Game window wrapper */
+/* Fenster-Titelleiste des Spielbereichs */
 .game-header {
   width: 100%;
   max-width: 900px;
   border-radius: 6px 6px 0 0;
   padding: 6px 8px;
   display: flex;
-  background-image: url('assets/background/windowHead.png');
+  background-image: url("assets/background/windowHead.png"); /* XP-Titelleiste */
   background-size: 100% 100%;
   align-items: center;
   gap: 8px;
   margin-top: 14px;
 }
 
+/* "← Zurück zur Lobby" Button */
 .back-btn {
-  background: var(--xp-btn-top);
-  border: 2px solid;
-  background-image: url('assets/universal/btn.png');
+  background-image: url("assets/universal/btn.png");
   background-size: 100% 100%;
   padding: 2px 10px;
   cursor: pointer;
@@ -388,49 +403,54 @@ header {
   border-color: #808080 #fff #fff #808080;
 }
 
+/* Spielname in der Titelleiste */
 .game-title {
   font-size: 13px;
   font-weight: bold;
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  flex: 1;
+  flex: 1; /* Nimmt den restlichen Platz ein */
 }
 
+/* Spielinhalt-Bereich (der "weiße" Fensterbereich) */
 .game-container {
   width: 100%;
   max-width: 900px;
   padding: 10px 14px 30px;
   flex: 1;
-  background-image: url('assets/background/windowBottom.png');
+  background-image: url("assets/background/windowBottom.png"); /* Fensterboden-Textur */
   background-size: 100% 100%;
   border: 2px solid #003c74;
-  border-top: none;
+  border-top: none; /* Kein oberer Rahmen (Titelleiste ist direkt drüber) */
   border-radius: 0 0 4px 4px;
   margin-bottom: 20px;
 }
 
-/* FELT TABLE */
+/* ===== SPIELTISCH (Blackjack / Pferderennen) ===== */
 .felt-table {
-  background: url('assets/background/BlackjackHintergrund.png') center / cover no-repeat;
+  /* Blackjack-Hintergrund (grüner Filztisch) */
+  background: url("assets/background/BlackjackHintergrund.png") center / cover
+    no-repeat;
   background-size: 100% 100%;
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
-  outline: 1px solid #404040;
+  border-color: #808080 #fff #fff #808080; /* XP-typischer eingesunkener Rahmen */
   padding: 16px;
   margin-bottom: 10px;
   position: relative;
   box-shadow: var(--xp-sunken);
 }
+/* Pferderennen-Variante des Spieltischs */
 .horse-track {
-  background: url('assets/background/PferdeHintergrund.png') center / cover no-repeat;
+  background: url("assets/background/PferdeHintergrund.png") center / cover
+    no-repeat;
   background-size: 100% 100%;
   background-color: transparent;
 }
 .horse-track .horse-lane {
-  background: none;
+  background: none; /* Fahrspuren bekommen keinen eigenen Hintergrund */
 }
 
-/* CARDS */
+/* ===== SPIELKARTEN (Blackjack) ===== */
 .card {
   display: inline-flex;
   align-items: center;
@@ -446,9 +466,10 @@ header {
   flex-direction: column;
   line-height: 1;
   border: 1px solid #999;
-  transition: transform 0.15s;
+  transition: transform 0.15s; /* Sanfte Animation beim Hochschieben */
   position: relative;
 }
+/* Kartenbilder (Vorder- und Rückseite) */
 .card.card-face img,
 .card.face-down img {
   width: 90%;
@@ -458,18 +479,19 @@ header {
   margin: 0 auto;
 }
 .card.face-down::after {
-  content: none;
+  content: none; /* Keine extra Dekoration auf der Kartenrückseite */
 }
+/* Karte schwebt hoch beim Hovern */
 .card:hover {
   transform: translateY(-6px);
   box-shadow: 2px 8px 6px rgba(0, 0, 0, 0.4);
 }
 .card.red {
   color: #cc0000;
-}
+} /* Rote Karten (Herz, Karo) */
 .card.black {
   color: #000;
-}
+} /* Schwarze Karten (Kreuz, Pik) */
 .card .rank {
   font-size: 0.9rem;
   font-weight: bold;
@@ -477,9 +499,11 @@ header {
 .card .suit {
   font-size: 1rem;
 }
+
+/* Kartenhand-Bereich */
 .hand {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Karten umbrechen wenn zu viele */
   min-height: 95px;
   align-items: center;
 }
@@ -491,14 +515,13 @@ header {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
 }
 .hand-value {
-  font-family: "ink free";
-  color: #ffff88;
+  color: #ffff88; /* Gelb = aktueller Handwert */
   font-size: 15px;
   margin-left: 6px;
   font-weight: bold;
 }
 
-/* CONTROLS */
+/* ===== STEUERUNGSLEISTE (Hit / Stand / usw.) ===== */
 .controls {
   display: flex;
   gap: 6px;
@@ -506,6 +529,8 @@ header {
   justify-content: center;
   margin-top: 8px;
 }
+
+/* Basis-Button-Stil für alle Spielbuttons */
 .btn {
   padding: 4px 18px;
   font-family: "Ink Free";
@@ -513,10 +538,11 @@ header {
   font-weight: bold;
   cursor: pointer;
   min-height: 23px;
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
+  background: url("assets/universal/btn.png") center / 100% 100% no-repeat;
 }
 .btn:hover {
-  filter: grayscale(0.2) brightness(1.3) hue-rotate(190deg) saturate(1.8) opacity(0.85);
+  filter: grayscale(0.2) brightness(1.3) hue-rotate(190deg) saturate(1.8)
+    opacity(0.85);
 }
 .btn:active {
   border-color: #808080 #fff #fff #808080;
@@ -524,43 +550,31 @@ header {
 .btn:disabled {
   opacity: 0.5;
   cursor: default;
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
 }
+
+/* Farbvarianten der Buttons per CSS-Filter */
 .btn-gold {
   filter: sepia(1) saturate(3) hue-rotate(5deg);
-}
-.btn-gold:hover {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
-.btn-gold:disabled {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
+} /* Gold */
 .btn-red {
   filter: sepia(1) saturate(5) hue-rotate(300deg);
-}
-.btn-red:hover {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
-.btn-red:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-.btn-outline:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
+} /* Rot */
 .btn-purple {
   filter: sepia(1) saturate(4) hue-rotate(230deg);
-}
+} /* Lila */
+
+/* Gesperrte Buttons werden halbtransparent */
+.btn-gold:disabled,
+.btn-red:disabled,
+.btn-outline:disabled,
 .btn-purple:disabled {
   opacity: 0.5;
   cursor: default;
 }
 
-
-/* BET AREA */
+/* ===== EINSATZ-BEREICH ===== */
 .bet-area {
-  background: url('assets/universal/back.png') center / 100% 100% no-repeat;
+  background: url("assets/universal/back.png") center / 100% 100% no-repeat;
   padding: 8px 12px;
   margin-bottom: 8px;
   display: flex;
@@ -575,23 +589,22 @@ header {
   font-weight: bold;
 }
 .bet-display {
-  font-family: "ink free";
-  color: #006600;
+  color: #006600; /* Grüne Zahl = aktueller Einsatz */
   font-size: 14px;
   font-weight: bold;
   min-width: 80px;
   text-align: center;
   background: white;
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
+  border-color: #808080 #fff #fff #808080; /* Eingesunkener XP-Rahmen */
   padding: 2px 6px;
 }
 
-/* CHIPS = XP-style colored buttons */
+/* ===== CHIPS (Jetons) ===== */
 .chip {
   width: 46px;
   height: 46px;
-  border-radius: 50%;
+  border-radius: 50%; /* Rund wie echte Jetons */
   border: 3px solid;
   display: flex;
   align-items: center;
@@ -606,6 +619,7 @@ header {
     2px 2px 4px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
+/* Gestrichelter innerer Kreis (typisches Jeton-Muster) */
 .chip::after {
   content: "";
   position: absolute;
@@ -616,41 +630,43 @@ header {
 }
 .chip:hover {
   transform: scale(1.1);
-}
+} /* Leicht vergrößern beim Hovern */
 .chip:active {
   transform: scale(0.95);
-}
+} /* Leicht schrumpfen beim Klicken */
+
+/* Jeton-Farben je nach Wert */
 .chip-5 {
   background: radial-gradient(circle at 35% 35%, #ff6666, #cc0000);
   border-color: #880000;
   color: white;
-}
+} /* Rot   =   $5 */
 .chip-10 {
   background: radial-gradient(circle at 35% 35%, #6699ff, #1a4db3);
   border-color: #00236b;
   color: white;
-}
+} /* Blau  =  $10 */
 .chip-25 {
   background: radial-gradient(circle at 35% 35%, #66cc66, #228822);
   border-color: #115511;
   color: white;
-}
+} /* Grün  =  $25 */
 .chip-50 {
   background: radial-gradient(circle at 35% 35%, #cc88ff, #6622aa);
   border-color: #441188;
   color: white;
-}
+} /* Lila  =  $50 */
 .chip-100 {
   background: radial-gradient(circle at 35% 35%, #ffaa44, #cc6600);
   border-color: #884400;
   color: white;
-}
+} /* Orange= $100 */
 
-/* MESSAGE */
+/* ===== ERGEBNIS-NACHRICHTENBOX ===== */
 .message-box {
   text-align: center;
   padding: 6px 12px;
-  background: url('assets/universal/back.png') center / 100% 100% no-repeat;
+  background: url("assets/universal/back.png") center / 100% 100% no-repeat;
   font-size: 15px;
   font-weight: bold;
   margin-top: 8px;
@@ -659,29 +675,29 @@ header {
   align-items: center;
   justify-content: center;
 }
+/* Farbfilter je nach Spielausgang */
 .msg-win {
   filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.3);
-}
+} /* Grün  = Gewonnen */
 .msg-lose {
   filter: sepia(1) saturate(4) hue-rotate(300deg) brightness(1.4);
-}
+} /* Rot   = Verloren */
 .msg-push {
   filter: sepia(1) saturate(2) hue-rotate(15deg) brightness(1.3);
-}
+} /* Gold  = Unentschieden */
 .msg-info {
-  background: url('assets/universal/back.png') center / 100% 100% no-repeat;
+  background: url("assets/universal/back.png") center / 100% 100% no-repeat;
   color: #000;
-  border-color: #808080 #fff #fff #808080;
-}
+} /* Neutral */
 
-/* MODALS = XP Dialog boxes */
+/* ===== POP-UPS / DIALOGE (wie XP-Dialogfenster) ===== */
 .modal-overlay,
 .rules-overlay {
-  display: none;
+  display: none; /* Standardmäßig versteckt */
   position: fixed;
-  inset: 0;
+  inset: 0; /* Deckt den gesamten Bildschirm ab */
   z-index: 200;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.4); /* Abgedunkelter Hintergrund */
   align-items: center;
   justify-content: center;
 }
@@ -691,25 +707,27 @@ header {
 .rules-overlay.active {
   display: flex;
   z-index: 500;
-}
+} /* Regeln liegen ganz oben */
 
+/* Das Dialogfenster selbst */
 .modal,
 .rules-modal {
   outline: 1px solid #808080;
-  width: min(380px, 92vw);
-  transform: none;
+  width: min(
+    380px,
+    92vw
+  ); /* Max 380px, aber auf kleinen Bildschirmen schmaler */
   border-radius: 6px 6px 0 0;
   padding: 0;
   overflow: hidden;
 }
 .rules-modal {
   width: min(480px, 94vw);
-  max-height: 80vh;
-  overflow-y: auto;
-  background: url('assets/background/RuleHintergrund.png') center / cover no-repeat;
-  background-size: 50% 50%;
+  max-height: 80vh; /* Nicht höher als 80% des Bildschirms */
+  overflow-y: auto; /* Scrollen wenn Inhalt zu lang */
+  background: url("assets/background/RuleHintergrund.png") center / 100% 100%
+    no-repeat;
   background-attachment: scroll;
-  padding: 0;
 }
 
 .rules-modal-body {
@@ -717,19 +735,21 @@ header {
   border-radius: 0 0 6px 6px;
 }
 
-/* Modal title bar */
+/* Titelleiste des "Geld hinzufügen"-Dialogs (per CSS-Pseudoelement) */
 .modal::before {
   content: "💰 Add Funds";
   display: block;
   height: 28px;
-  background: url('assets/background/windowHead.png') center / 100% 100% no-repeat;
+  background: url("assets/background/windowHead.png") center / 100% 100%
+    no-repeat;
   font-size: 12px;
   font-weight: bold;
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 .modal-body {
-  background: url('assets/background/windowBottom.png') center / 100% 100% no-repeat;
+  background: url("assets/background/windowBottom.png") center / 100% 100%
+    no-repeat;
   padding: 20px;
   text-align: center;
 }
@@ -744,6 +764,8 @@ header {
   margin-bottom: 14px;
   font-size: 15px;
 }
+
+/* Raster der Geldbeträge (3 Spalten) */
 .amount-options {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -752,22 +774,25 @@ header {
 }
 .amount-btn {
   padding: 8px 6px;
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
+  background: url("assets/universal/btn.png") center / 100% 100% no-repeat;
   color: #006600;
   font-family: ink free;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
+/* Gesperrte Beträge = ausgegraut */
 .amount-btn.locked {
-  filter: grayscale(1) brightness(1.4); 
+  filter: grayscale(1) brightness(1.4);
   opacity: 0.5;
 }
 .amount-btn.locked:hover {
   filter: grayscale(1) brightness(1.4);
-}
+} /* Kein Hover-Effekt */
+
+/* "Abbrechen"-Button im Dialog */
 .modal-close {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
+  background: url("assets/universal/btn.png") center / 100% 100% no-repeat;
   padding: 4px 20px;
   cursor: pointer;
   font-family: ink free;
@@ -778,19 +803,11 @@ header {
   filter: grayscale(1) brightness(1.4);
 }
 
-/* RULES MODAL / Editor hintergrund */
-.rules-modal {
-  width: min(480px, 94vw);
-  max-height: 80vh;
-  overflow-y: auto;
-  background: url('assets/background/RuleHintergrund.png') center / cover no-repeat;
-  background-size: 100% 100%;
-  background-attachment: scroll;
-}
+/* ===== REGELANZEIGE ===== */
 .rules-modal-body {
   padding: 100px 18px 14px;
   border-radius: 0 0 6px 6px;
-}
+} /* Großes Padding oben wegen Hintergrundbild */
 .rules-modal .rule-section {
   margin-bottom: 10px;
 }
@@ -799,7 +816,7 @@ header {
   font-weight: bold;
   color: #00008b;
   margin-bottom: 3px;
-}
+} /* Dunkelblau */
 .rules-modal .rule-section p,
 .rules-modal .rule-section ul {
   font-size: 14px;
@@ -808,10 +825,12 @@ header {
 }
 .rules-modal .rule-section ul {
   margin-left: 16px;
-}
+} /* Eingerückte Liste */
+
+/* "OK"-Button im Regelmenü */
 .rules-close {
   display: block;
-  background: url('assets/universal/btn.png') no-repeat;
+  background: url("assets/universal/btn.png") no-repeat;
   background-size: 100% 100%;
   margin: auto;
   width: 80px;
@@ -824,11 +843,11 @@ header {
   filter: grayscale(1) brightness(1.4);
 }
 
-/* RULES BUTTON */
+/* "?"-Regelbutton in der Spieltitelleiste */
 .rules-btn {
   width: 22px;
   height: 22px;
-  background: url('assets/universal/btn.png') center / cover no-repeat;
+  background: url("assets/universal/btn.png") center / cover no-repeat;
   background-size: 100% 100%;
   font-size: 12px;
   font-weight: bold;
@@ -842,13 +861,13 @@ header {
   filter: grayscale(1) brightness(1.4);
 }
 
-/* TOAST = XP tip */
+/* ===== TOAST-NACHRICHT (kurze Einblendung, wie XP-Sprechblase) ===== */
 .toast {
   position: fixed;
   bottom: 50px;
   right: 20px;
-  transform: translateY(150px);
-  background: #ffffcc;
+  transform: translateY(150px); /* Startet unten außerhalb des Bildschirms */
+  background: #ffffcc; /* Gelb wie eine XP-Tooltip-Blase */
   border: 1px solid #808080;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
   color: #000;
@@ -857,19 +876,20 @@ header {
   font-weight: bold;
   transition:
     transform 0.3s ease,
-    opacity 0.3s ease;
+    opacity 0.3s ease; /* Sanft einblenden */
   z-index: 300;
-  pointer-events: none;
+  pointer-events: none; /* Klicks gehen durch die Toast-Nachricht hindurch */
   opacity: 0;
-  white-space: nowrap;
+  white-space: nowrap; /* Kein Zeilenumbruch */
   max-width: 280px;
-  border-radius: 6px 6px 6px 0;
+  border-radius: 6px 6px 6px 0; /* Typische XP-Sprechblasen-Form */
 }
 .toast.show {
-  transform: translateY(0);
+  transform: translateY(0); /* Fährt ins Bild */
   opacity: 1;
 }
 
+/* Ergebnisbanner (z.B. "Du hast gewonnen!") mit Pop-In-Animation */
 .result-banner {
   font-size: 1.4rem;
   font-weight: bold;
@@ -881,31 +901,33 @@ header {
   from {
     transform: scale(0.8);
     opacity: 0;
-  }
+  } /* Startet klein und unsichtbar */
   to {
     transform: scale(1);
     opacity: 1;
-  }
+  } /* Wächst auf normale Größe */
 }
+
+/* Dekorative Trennlinie zwischen Abschnitten */
 .section-sep {
   border: none;
   height: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3); /* Helle Linie oben */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3); /* Dunkle Linie unten (= 3D-Effekt) */
   margin: 10px 0;
 }
 
-/* ADD MONEY LOCKED */
+/* "+" Button gesperrt (noch kein Gewinn) */
 .add-money-btn.locked-btn {
   background: linear-gradient(180deg, #888 0%, #666 100%);
   cursor: not-allowed;
   border-color: #444;
 }
 
-/* UNLOCK NOTIFICATION = XP Balloon */
+/* ===== FREISCHALT-BENACHRICHTIGUNG (wie XP-Infoballon) ===== */
 .unlock-notif {
   position: fixed;
-  top: 50px;
+  top: 50px; /* Direkt unter der Kopfzeile */
   right: 16px;
   z-index: 400;
   background: #ffffcc;
@@ -919,7 +941,7 @@ header {
   align-items: center;
   gap: 8px;
   max-width: 260px;
-  transform: translateX(300px);
+  transform: translateX(300px); /* Startet rechts außerhalb des Bildschirms */
   transition:
     transform 0.4s ease,
     opacity 0.3s;
@@ -928,11 +950,11 @@ header {
   border-radius: 6px 6px 6px 0;
 }
 .unlock-notif.show {
-  transform: translateX(0);
+  transform: translateX(0); /* Fährt von rechts ins Bild */
   opacity: 1;
 }
 .unlock-notif.all-unlocked {
-  background: #e0ffe0;
+  background: #e0ffe0; /* Grün wenn alles freigeschaltet ist */
   border-color: #008000;
 }
 .unlock-icon {
@@ -943,12 +965,17 @@ header {
   line-height: 1.4;
 }
 
+/* ===== PFERDERENNEN: PFERDE-AUSWAHL & RENNBAHN ===== */
+
+/* Icon in der Pferdeauswahl-Liste */
 .horse-select-icon {
   width: 100px;
   height: auto;
   vertical-align: middle;
   margin-right: 8px;
 }
+
+/* Pferd-Emoji/Bild auf der Rennbahn */
 .horse-emoji img {
   width: 120px;
   max-width: 120px;
@@ -958,9 +985,11 @@ header {
 .horse-emoji {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  transition: left 0.16s linear;
+  transform: translateY(-50%); /* Vertikal zentriert in der Fahrspur */
+  transition: left 0.16s linear; /* Sanfte Bewegung beim Rennen */
 }
+
+/* Einzelne Fahrspur auf der Rennbahn */
 .horse-lane {
   position: relative;
   min-height: 100px;
@@ -968,10 +997,12 @@ header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2); /* Leicht abgedunkelt */
   border-radius: 4px;
   margin-bottom: 8px;
 }
+
+/* Pferdename links in der Fahrspur */
 .horse-name {
   position: absolute;
   left: 15px;
@@ -980,24 +1011,27 @@ header {
   color: white;
   text-shadow: 1px 1px 0.1px rgba(0, 0, 0, 0.6);
 }
+
+/* Button zum Auswählen eines Pferdes vor dem Rennen */
 .horse-select-btn {
   padding: 12px 16px;
   width: 100%;
   min-height: 50px;
-  font-size: 13px;
-  background: url('assets/universal/btnBIG.png') center / 100% 100% no-repeat;
-  font-family: 'Ink Free';
+  background: url("assets/universal/btnBIG.png") center / 100% 100% no-repeat;
+  font-family: "Ink Free";
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Name links, Icon rechts */
   margin-bottom: 6px;
 }
+/* Goldener Schimmer beim Hovern */
 .horse-select-btn:hover {
   filter: sepia(1) saturate(3) hue-rotate(5deg);
 }
+/* Ausgewähltes Pferd bleibt golden hervorgehoben */
 .horse-select-btn.selected {
   filter: sepia(1) saturate(3) hue-rotate(5deg);
   font-weight: bold;
