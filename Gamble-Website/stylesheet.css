@@ -150,6 +150,7 @@ header {
 /* HOME = XP Window on desktop */
 #home {
   padding-top: 50px;
+  background: url(assets/background/Hintergrund.png);
 }
 
 .home-hero {
