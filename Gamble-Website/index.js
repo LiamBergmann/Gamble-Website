@@ -135,11 +135,11 @@ function streakBarHTML(game) {
   ).join('');
   return `<div id="ingame-streak-wrap" style="display:flex;align-items:center;gap:8px;padding:8px 14px;
     background:rgba(0,0,0,0.25);border-radius:6px;margin-bottom:10px;flex-wrap:wrap;justify-content:center;">
-    <span style="font-family:'Tahoma',Arial,sans-serif;color:rgba(255,255,255,0.8);font-size:1rem;">🔥 Streak:</span>
+    <span style="color:rgba(255,255,255,0.8);font-size:1rem;">🔥 Streak:</span>
     <span style="display:inline-flex;align-items:center;">${pips}</span>
-    <span style="font-family:'Tahoma',Arial,sans-serif;color:var(--yellow);font-size:1rem;font-weight:700;">${s}</span>
-    <span style="font-family:'Tahoma',Arial,sans-serif;color:rgba(255,255,255,0.4);font-size:0.9rem;">| 🏆 Best: ${h}</span>
-    ${h >= 5 ? '<span style="font-family:\'Caveat\',cursive;color:#c9a84c;font-size:0.85rem;">✓ Cleared!</span>' : ''}
+    <span style="color:var(--yellow);font-size:1rem;font-weight:700;">${s}</span>
+    <span style="font-size:0.9rem;">| 🏆 Best: ${h}</span>
+    ${h >= 5 ? '<span style="font-family:\'ink free\'font-size:1rem;">✓ Cleared!</span>' : ''}
   </div>`;
 }
 
@@ -172,8 +172,8 @@ function openGame(game) {
   const gs = document.getElementById("game-screen");
   gs.classList.add("active");
   const titles = {
-    blackjack: "♠ Blackjack",
-    horses: "🐎 Horse Racing",
+    blackjack: "Blackjack",
+    horses: "Horse Racing",
   };
   document.getElementById("game-title").textContent = titles[game];
   const gc = document.getElementById("game-container");
@@ -400,11 +400,11 @@ function initBlackjack(container) {
       <div class="bet-area">
         ${betDisplay}
         ${inBettingPhase ? `
-          <div class="chip chip-5" onclick="placeBet(5)">$5</div>
-          <div class="chip chip-10" onclick="placeBet(10)">$10</div>
-          <div class="chip chip-25" onclick="placeBet(25)">$25</div>
-          <div class="chip chip-50" onclick="placeBet(50)">$50</div>
-          <div class="chip chip-100" onclick="placeBet(100)">$100</div>
+          <img class="chip chip-5" src="assets/universal/Chip5.png" onclick="placeBet(5)" alt="$5 Chip" />
+          <img class="chip chip-10" src="assets/universal/Chip10.png" onclick="placeBet(10)" alt="$10 Chip" />
+          <img class="chip chip-25" src="assets/universal/Chip25.png" onclick="placeBet(25)" alt="$25 Chip" />
+          <img class="chip chip-50" src="assets/universal/Chip50.png" onclick="placeBet(50)" alt="$50 Chip" />
+          <img class="chip chip-100" src="assets/universal/Chip100.png" onclick="placeBet(100)" alt="$100 Chip" />
         ` : ''}
       </div>
       <div class="controls">
@@ -614,11 +614,11 @@ function initHorses(container) {
         <span class="bet-label">Bet:</span>
         <span class="bet-display">${formatMoney(bet)}</span>
         ${!racing && !raceFinished ? `
-          <div class="chip chip-5" onclick="hPlaceBet(5)">$5</div>
-          <div class="chip chip-10" onclick="hPlaceBet(10)">$10</div>
-          <div class="chip chip-25" onclick="hPlaceBet(25)">$25</div>
-          <div class="chip chip-50" onclick="hPlaceBet(50)">$50</div>
-          <div class="chip chip-100" onclick="hPlaceBet(100)">$100</div>
+          <img class="chip chip-5" src="assets/universal/Chip5.png" onclick="hPlaceBet(5)" alt="$5 Chip" />
+          <img class="chip chip-10" src="assets/universal/Chip10.png" onclick="hPlaceBet(10)" alt="$10 Chip" />
+          <img class="chip chip-25" src="assets/universal/Chip25.png" onclick="hPlaceBet(25)" alt="$25 Chip" />
+          <img class="chip chip-50" src="assets/universal/Chip50.png" onclick="hPlaceBet(50)" alt="$50 Chip" />
+          <img class="chip chip-100" src="assets/universal/Chip100.png" onclick="hPlaceBet(100)" alt="$100 Chip" />
         ` : ''}
       </div>
       <div class="controls">
