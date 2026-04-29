@@ -1,8 +1,11 @@
 # Gambling-Website
 A school project
 
+BUG:
 BUG gefixt
-Test grund funktionen [Check]
+BUG es wird pro spiel nur 1 Knopf für die addMoney Funktion freigeschaltet.
+
+Test: grund funktionen [Check]
 
 Scrennshots der seite:
 <img width="1917" height="945" alt="Index" src="https://github.com/user-attachments/assets/9365bc7b-0f6a-444b-933f-126c0970baa0" />
