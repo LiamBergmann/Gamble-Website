@@ -1,74 +1,75 @@
 /* ===== WINDOWS XP THEME ===== */ 
-/*Wenn wir XP Sagen meinen wir damit eine art windows XP style*/
+/* Der gesamte Stil ist an Windows XP angelehnt (Fenster, Buttons, Titelleisten) */
+
+/* Alle Elemente: Größenberechnung vereinheitlichen, Abstände zurücksetzen */
 * {
-  box-sizing: border-box;
+  box-sizing: border-box; /* Rahmen und Innenabstand werden in die Breite eingerechnet */
   margin: 0;
   padding: 0;
 }
 
-/* Front in die seite hochladen */
+/* ===== EIGENE SCHRIFTART LADEN ===== */
+/* Die Datei "Inkfree.ttf" aus dem assets-Ordner als Schriftart einbinden */
 @font-face {
   font-family: 'Ink Free';
   src: url('assets/font/Inkfree.ttf') format('truetype');
 }
 
+/* ===== GRUNDLAYOUT DER SEITE ===== */
 body {
-  font-family: 'Ink Free', cursive;
+  font-family: 'Ink Free', cursive;   /* Handschriftliche Schrift überall */
   font-size: 11px;
   background: var(--xp-desktop);
-  background-image: url(/assets/background/Hintergrund.png);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  min-height: 100vh;
-  overflow-x: hidden;
+  background-image: url(/assets/background/Hintergrund.png); /* Hintergrundbild */
+  background-repeat: no-repeat;       /* Bild wird nicht gekachelt */
+  background-attachment: fixed;       /* Hintergrund scrollt nicht mit */
+  background-size: cover;             /* Bild füllt den ganzen Bildschirm */
+  min-height: 100vh;                  /* Mindestens so hoch wie der Bildschirm */
+  overflow-x: hidden;                 /* Kein horizontales Scrollen */
 }
 
-/* XP BUTTONS */
+/* ===== XP-STIL BUTTONS (Basis) ===== */
 .xp-btn {
   font-size: 11px;
   font-weight: normal;
   padding: 3px 10px;
-  cursor: pointer;
+  cursor: pointer;    /* Mauszeiger wird zur Hand beim Hovern */
   color: #000;
   min-height: 23px;
 }
 .xp-btn:active {
+  /* Beim Klicken: Rahmen dreht sich um (wirkt gedrückt) */
   border-color: #808080 #fff #fff #808080;
   padding: 4px 9px 2px 11px;
 }
 .xp-btn:disabled {
-  opacity: 0.5;
-  cursor: default;
+  opacity: 0.5;        /* Gesperrte Buttons werden halbtransparent */
+  cursor: default;     /* Kein Zeigefinger-Cursor bei gesperrten Buttons */
 }
 
-/* HEADER "Taskbar" */
+/* ===== KOPFZEILE (wirkt wie die XP Taskleiste) ===== */
 header {
-  position: fixed;
+  position: fixed;        /* Bleibt immer oben stehen beim Scrollen */
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 100;           /* Liegt über allem anderen */
   height: 50px;
-  background: linear-gradient(
-    180deg,
-    #2a82d4 0%,
-    #1560c8 4%,
-    #0f4ab5 95%,
-    #0a3590 100%
-  );
-  border-top: 1px solid #74b4f4;
+  /* Blauer XP-Taskleisten-Farbverlauf */
+  background: linear-gradient(180deg, #2a82d4 0%, #1560c8 4%, #0f4ab5 95%, #0a3590 100%);
+  border-top: 1px solid #74b4f4;  /* Helle Linie ganz oben */
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  justify-content: space-between; /* Logo links, Wallet rechts */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Schatten nach unten */
 }
 
-/* Start button style logo */
+/* ===== LOGO (sieht aus wie der XP-Startbutton) ===== */
 .logo {
+  /* Grüner Farbverlauf wie der Windows XP Start-Button */
   background: linear-gradient(180deg, #6dbb35 0%, #3a9915 40%, #2e8012 100%);
   border: 1px solid #1a5c08;
-  border-radius: 0 12px 12px 0;
+  border-radius: 0 12px 12px 0; /* Rechts abgerundet wie der Start-Button */
   padding: 3px 14px 3px 10px;
   font-family: 'Ink Free', cursive;
   font-size: 13px;
@@ -85,15 +86,15 @@ header {
   cursor: pointer;
 }
 .logo span {
-  color: #ffde00;
+  color: #ffde00; /* Gelbe Akzentfarbe im Logo-Text */
 }
 
-/* Wallet = system tray */
+/* ===== GELDBEUTEL-ANZEIGE (wirkt wie die XP-Systemtray rechts) ===== */
 .wallet {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(180deg, #0a3da0 0%, #0c4cc0 100%);
+  background: linear-gradient(180deg, #0a3da0 0%, #0c4cc0 100%); /* Dunkles Blau */
   border: 1px solid #1a5cd8;
   border-radius: 2px;
   padding: 3px 10px;
@@ -103,19 +104,21 @@ header {
   color: white;
 }
 .wallet-icon {
-  font-size: 14px;
+  font-size: 14px; /* Emoji etwas größer */
 }
 .wallet-amount {
   font-size: 12px;
   font-weight: bold;
-  color: #7dff7d;
+  color: #7dff7d;     /* Grüne Zahl = Geldanzeige */
   min-width: 70px;
   text-align: right;
 }
+
+/* "+" Button zum Geld hinzufügen */
 .add-money-btn {
   width: 20px;
   height: 20px;
-  background: linear-gradient(180deg, #5cb85c 0%, #3a9a3a 100%);
+  background: linear-gradient(180deg, #5cb85c 0%, #3a9a3a 100%); /* Grün */
   border: 1px solid #1a6a1a;
   border-radius: 2px;
   color: white;
@@ -128,31 +131,31 @@ header {
   line-height: 1;
 }
 .add-money-btn:hover {
-  background: linear-gradient(180deg, #6dc86d 0%, #4ab04a 100%);
+  background: linear-gradient(180deg, #6dc86d 0%, #4ab04a 100%); /* Etwas heller beim Hovern */
 }
 .add-money-btn.locked-btn {
+  /* Grau = gesperrt, noch kein Spiel gewonnen */
   background: linear-gradient(180deg, #888 0%, #666 100%);
-  cursor: not-allowed;
+  cursor: not-allowed; /* "Verboten"-Cursor */
 }
 
-/* SCREENS */
+/* ===== BILDSCHIRME (Home / Spielscreen) ===== */
 .screen {
-  display: none;
+  display: none;        /* Standardmäßig versteckt */
   min-height: 100vh;
-  padding-top: 44px;
+  padding-top: 44px;    /* Damit Inhalt nicht hinter der Kopfzeile steckt */
 }
 .screen.active {
-  display: block;
+  display: block;       /* Nur der aktive Bildschirm wird angezeigt */
 }
 
-
-
-/* HOME = XP Window on desktop */
+/* ===== STARTSEITE (Spielauswahl) ===== */
 #home {
   padding-top: 50px;
   background: url(assets/background/Hintergrund.png);
 }
 
+/* Optionaler Hero-Bereich oben auf der Startseite */
 .home-hero {
   text-align: center;
   padding: 20px 20px 14px;
@@ -161,14 +164,10 @@ header {
   display: none;
 }
 .home-hero h1 {
-  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-size: clamp(1.8rem, 5vw, 3rem); /* Passt sich der Bildschirmbreite an */
   font-weight: bold;
   color: white;
-  text-shadow:
-    2px 2px 4px rgba(0, 0, 0, 0.7),
-    0 0 20px rgba(100, 180, 255, 0.5);
-  transform: none;
-  text-decoration: none;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(100, 180, 255, 0.5);
   letter-spacing: 1px;
 }
 .home-hero p {
@@ -177,6 +176,8 @@ header {
   margin-top: 4px;
   letter-spacing: 1px;
 }
+
+/* Dekorative Trennlinie mit Kartensymbolen */
 .divider {
   width: 200px;
   height: 1px;
@@ -184,15 +185,16 @@ header {
   margin: 10px auto;
 }
 .divider::after {
-  content: "♠ ♥ ♦ ♣";
+  content: "♠ ♥ ♦ ♣"; /* Kartensymbole als Dekoration */
   background: transparent;
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.8rem;
 }
 
-/* Game grid*/
+/* ===== SPIELKARTEN-RASTER (Spielauswahl) ===== */
 .games-grid {
   display: grid;
+  /* Automatisch so viele Spalten wie reinpassen, mind. 200px breit */
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   max-width: 1000px;
@@ -200,8 +202,9 @@ header {
   padding: 10px 20px 40px;
 }
 
-/* XP Window style game cards */
+/* ===== EINZELNE SPIELKARTE (wirkt wie ein XP-Fenster) ===== */
 .game-card {
+  /* Hintergrundbild simuliert ein XP-Fenster mit Titelleiste */
   background-image: url('assets/background/window.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -209,15 +212,13 @@ header {
   margin: 5%;
   text-align: center;
   cursor: pointer;
-  transition: none;
   position: relative;
-  transform: none !important;
-  border-radius: 14px 10px 0 0;
+  border-radius: 14px 10px 0 0; /* Abgerundete Ecken oben (wie XP-Fenster) */
 }
-/* Title bar text*/
 .game-card::after {
   display: none;
 }
+/* Hover-Effekt: orangefarbener Rahmen + leichter Schatten */
 .game-card:hover {
   outline: 1px solid #ff8c00;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
@@ -225,8 +226,6 @@ header {
 }
 .game-card-inner {
   padding: 16px 14px 14px;
-  background-image: none;
-  background-repeat: no-repeat;
 }
 .game-card h2 {
   font-size: 20px;
@@ -239,766 +238,35 @@ header {
   font-size: 18px;
   line-height: 1.4;
 }
+
+/* "Play Now"-Button auf der Spielkarte */
 .play-btn {
   margin-top: 10px;
+  /* Button-Bild als Hintergrund */
   background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
   display: inline-block;
   padding: 4px 18px;
   color: #000;
   font-size: 15px;
   font-weight: bold;
-  transition: none;
 }
+/* Button bekommt beim Hovern einen goldenen Farbton */
 .game-card:hover .play-btn {
   filter: sepia(1) saturate(3) hue-rotate(5deg);
   color: #000;
-  transform: none;
 }
 
-/* TITLE BAR fake label — injected via JS card-title class */
+/* ===== FENSTERTITEL DER SPIELKARTE (per JS eingefügt) ===== */
 .card-title {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 26px;
+  height: 26px;         /* Höhe der Titelleiste */
   display: flex;
   align-items: center;
   padding: 0 8px;
   font-size: 12px;
   font-weight: bold;
   color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-  gap: 6px;
-}
-.card-title-btns {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  display: flex;
-  gap: 2px;
-}
-.card-title-btn {
-  width: 16px;
-  height: 14px;
-  border: 1px solid #888;
-  border-radius: 2px;
-  font-size: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-  color: #000;
-  font-weight: bold;
-}
-.card-title-btn.min {
-  background: linear-gradient(180deg, #f0f0f0 0%, #d8d0c8 100%);
-}
-.card-title-btn.max {
-  background: linear-gradient(180deg, #f0f0f0 0%, #d8d0c8 100%);
-}
-.card-title-btn.cls {
-  background: linear-gradient(180deg, #e86060 0%, #c02020 100%);
-  color: white;
-}
-
-/* STREAK BADGES */
-.streak-badge {
-  position: absolute;
-  top: 33px;
-  right: 14px;
-  font-family: "ink free";
-  font-size: 10px;
-  font-weight: bold;
-  background: #fff4c0;
-  color: #804000;
-  padding: 1px 6px;
-  border: 1px solid #c08000;
-  z-index: 3;
-  white-space: nowrap;
-  border-radius: 2px;
-}
-.streak-badge.hot {
-  background: #ffe0e0;
-  color: #800000;
-  border-color: #c00000;
-  animation: streakPulse 0.8s infinite alternate;
-}
-.streak-badge.max {
-  background: #c9a84c;
-  color: #000;
-  border-color: #806000;
-}
-@keyframes streakPulse {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0.6;
-  }
-}
-
-/* GAME SCREEN = XP window */
-#game-screen {
-  background: var(--xp-desktop);
-  background: rgb(94, 172, 6) url(assets/background/Hintergrund.png) no-repeat;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 50px;
-  min-height: 100vh;
-}
-#game-screen.active {
-  display: flex;
-  background: rgb(94, 172, 6) url(assets/background/Hintergrund.png) no-repeat;
-}
-
-/* Game window wrapper */
-.game-header {
-  width: 100%;
-  max-width: 900px;
-  border-radius: 6px 6px 0 0;
-  padding: 6px 8px;
-  display: flex;
-  background-image: url('assets/background/windowHead.png');
-  background-size: 100% 100%;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.back-btn {
-  background: var(--xp-btn-top);
-  border: 2px solid;
-  background-image: url('assets/universal/btn.png');
-  background-size: 100% 100%;
-  padding: 2px 10px;
-  cursor: pointer;
-  font-size: 11px;
-  height: 22px;
-}
-.back-btn:hover {
-  filter: grayscale(1) brightness(1.4);
-}
-.back-btn:active {
-  border-color: #808080 #fff #fff #808080;
-}
-
-.game-title {
-  font-size: 13px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  flex: 1;
-}
-
-.game-container {
-  width: 100%;
-  max-width: 900px;
-  padding: 10px 14px 30px;
-  flex: 1;
-  background-image: url('assets/background/windowBottom.png');
-  background-size: 100% 100%;
-  border: 2px solid #003c74;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  margin-bottom: 20px;
-}
-
-/* FELT TABLE */
-.felt-table {
-  background: url('assets/background/BlackjackHintergrund.png') center / cover no-repeat;
-  background-size: 100% 100%;
-  border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
-  outline: 1px solid #404040;
-  padding: 16px;
-  margin-bottom: 10px;
-  position: relative;
-  box-shadow: var(--xp-sunken);
-}
-.horse-track {
-  background: url('assets/background/PferdeHintergrund.png') center / cover no-repeat;
-  background-size: 100% 100%;
-  background-color: transparent;
-}
-.horse-track .horse-lane {
-  background: none;
-}
-
-/* CARDS */
-.card {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 58px;
-  height: 84px;
-  background: white;
-  border-radius: 3px;
-  font-size: 1rem;
-  font-weight: bold;
-  margin: 3px;
-  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
-  flex-direction: column;
-  line-height: 1;
-  border: 1px solid #999;
-  transition: transform 0.15s;
-  position: relative;
-}
-.card.card-face img,
-.card.face-down img {
-  width: 90%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-.card.face-down::after {
-  content: none;
-}
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 2px 8px 6px rgba(0, 0, 0, 0.4);
-}
-.card.red {
-  color: #cc0000;
-}
-.card.black {
-  color: #000;
-}
-.card .rank {
-  font-size: 0.9rem;
-  font-weight: bold;
-}
-.card .suit {
-  font-size: 1rem;
-}
-.hand {
-  display: flex;
-  flex-wrap: wrap;
-  min-height: 95px;
-  align-items: center;
-}
-.hand-label {
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 15px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
-}
-.hand-value {
-  font-family: "ink free";
-  color: #ffff88;
-  font-size: 15px;
-  margin-left: 6px;
-  font-weight: bold;
-}
-
-/* CONTROLS */
-.controls {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 8px;
-}
-.btn {
-  padding: 4px 18px;
-  font-family: "Ink Free";
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  min-height: 23px;
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
-.btn:hover {
-  filter: grayscale(0.2) brightness(1.3) hue-rotate(190deg) saturate(1.8) opacity(0.85);
-}
-.btn:active {
-  border-color: #808080 #fff #fff #808080;
-}
-.btn:disabled {
-  opacity: 0.5;
-  cursor: default;
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
-.btn-gold {
-  filter: sepia(1) saturate(3) hue-rotate(5deg);
-}
-.btn-gold:hover {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
-.btn-gold:disabled {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
-.btn-red {
-  filter: sepia(1) saturate(5) hue-rotate(300deg);
-}
-.btn-red:hover {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-}
-.btn-red:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-.btn-outline:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-.btn-purple {
-  filter: sepia(1) saturate(4) hue-rotate(230deg);
-}
-.btn-purple:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-
-/* BET AREA */
-.bet-area {
-  background: url('assets/universal/back.png') center / 100% 100% no-repeat;
-  padding: 8px 12px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.bet-label {
-  color: #000;
-  font-size: 15px;
-  font-weight: bold;
-}
-.bet-display {
-  font-family: "ink free";
-  color: #006600;
-  font-size: 14px;
-  font-weight: bold;
-  min-width: 80px;
-  text-align: center;
-  background: white;
-  border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
-  padding: 2px 6px;
-}
-
-/* CHIPS = XP-style colored buttons */
-.chip {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 3px solid;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.1s;
-  flex-shrink: 0;
-  position: relative;
-  box-shadow:
-    2px 2px 4px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-.chip::after {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border-radius: 50%;
-  border: 2px dashed rgba(255, 255, 255, 0.5);
-  pointer-events: none;
-}
-.chip:hover {
-  transform: scale(1.1);
-}
-.chip:active {
-  transform: scale(0.95);
-}
-.chip-5 {
-  background: radial-gradient(circle at 35% 35%, #ff6666, #cc0000);
-  border-color: #880000;
-  color: white;
-}
-.chip-10 {
-  background: radial-gradient(circle at 35% 35%, #6699ff, #1a4db3);
-  border-color: #00236b;
-  color: white;
-}
-.chip-25 {
-  background: radial-gradient(circle at 35% 35%, #66cc66, #228822);
-  border-color: #115511;
-  color: white;
-}
-.chip-50 {
-  background: radial-gradient(circle at 35% 35%, #cc88ff, #6622aa);
-  border-color: #441188;
-  color: white;
-}
-.chip-100 {
-  background: radial-gradient(circle at 35% 35%, #ffaa44, #cc6600);
-  border-color: #884400;
-  color: white;
-}
-
-/* MESSAGE */
-.message-box {
-  text-align: center;
-  padding: 6px 12px;
-  background: url('assets/universal/back.png') center / 100% 100% no-repeat;
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 8px;
-  min-height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.msg-win {
-  filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.3);
-}
-.msg-lose {
-  filter: sepia(1) saturate(4) hue-rotate(300deg) brightness(1.4);
-}
-.msg-push {
-  filter: sepia(1) saturate(2) hue-rotate(15deg) brightness(1.3);
-}
-.msg-info {
-  background: url('assets/universal/back.png') center / 100% 100% no-repeat;
-  color: #000;
-  border-color: #808080 #fff #fff #808080;
-}
-
-/* MODALS = XP Dialog boxes */
-.modal-overlay,
-.rules-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.4);
-  align-items: center;
-  justify-content: center;
-}
-.modal-overlay.active {
-  display: flex;
-}
-.rules-overlay.active {
-  display: flex;
-  z-index: 500;
-}
-
-.modal,
-.rules-modal {
-  outline: 1px solid #808080;
-  width: min(380px, 92vw);
-  transform: none;
-  border-radius: 6px 6px 0 0;
-  padding: 0;
-  overflow: hidden;
-}
-.rules-modal {
-  width: min(480px, 94vw);
-  max-height: 80vh;
-  overflow-y: auto;
-  background: url('assets/background/RuleHintergrund.png') center / cover no-repeat;
-  background-size: 50% 50%;
-  background-attachment: scroll;
-  padding: 0;
-}
-
-.rules-modal-body {
-  padding: 16px 18px 14px;
-  border-radius: 0 0 6px 6px;
-}
-
-/* Modal title bar */
-.modal::before {
-  content: "💰 Add Funds";
-  display: block;
-  height: 28px;
-  background: url('assets/background/windowHead.png') center / 100% 100% no-repeat;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-.modal-body {
-  background: url('assets/background/windowBottom.png') center / 100% 100% no-repeat;
-  padding: 20px;
-  text-align: center;
-}
-.modal h2 {
-  color: #000;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-.modal p {
-  color: #444;
-  margin-bottom: 14px;
-  font-size: 15px;
-}
-.amount-options {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-bottom: 14px;
-}
-.amount-btn {
-  padding: 8px 6px;
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-  color: #006600;
-  font-family: ink free;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.amount-btn.locked {
-  filter: grayscale(1) brightness(1.4); 
-  opacity: 0.5;
-}
-.amount-btn.locked:hover {
-  filter: grayscale(1) brightness(1.4);
-}
-.modal-close {
-  background: url('assets/universal/btn.png') center / 100% 100% no-repeat;
-  padding: 4px 20px;
-  cursor: pointer;
-  font-family: ink free;
-  font-size: 15px;
-  margin-top: 4px;
-}
-.modal-close:hover {
-  filter: grayscale(1) brightness(1.4);
-}
-
-/* RULES MODAL / Editor hintergrund */
-.rules-modal {
-  width: min(480px, 94vw);
-  max-height: 80vh;
-  overflow-y: auto;
-  background: url('assets/background/RuleHintergrund.png') center / cover no-repeat;
-  background-size: 100% 100%;
-  background-attachment: scroll;
-}
-.rules-modal-body {
-  padding: 100px 18px 14px;
-  border-radius: 0 0 6px 6px;
-}
-.rules-modal .rule-section {
-  margin-bottom: 10px;
-}
-.rules-modal .rule-section h3 {
-  font-size: 18px;
-  font-weight: bold;
-  color: #00008b;
-  margin-bottom: 3px;
-}
-.rules-modal .rule-section p,
-.rules-modal .rule-section ul {
-  font-size: 14px;
-  color: #222;
-  line-height: 1.5;
-}
-.rules-modal .rule-section ul {
-  margin-left: 16px;
-}
-.rules-close {
-  display: block;
-  background: url('assets/universal/btn.png') no-repeat;
-  background-size: 100% 100%;
-  margin: auto;
-  width: 80px;
-  padding: 8px;
-  font-size: 11px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.rules-close:hover {
-  filter: grayscale(1) brightness(1.4);
-}
-
-/* RULES BUTTON */
-.rules-btn {
-  width: 22px;
-  height: 22px;
-  background: url('assets/universal/btn.png') center / cover no-repeat;
-  background-size: 100% 100%;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.rules-btn:hover {
-  filter: grayscale(1) brightness(1.4);
-}
-
-/* TOAST = XP tip */
-.toast {
-  position: fixed;
-  bottom: 50px;
-  right: 20px;
-  transform: translateY(150px);
-  background: #ffffcc;
-  border: 1px solid #808080;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
-  color: #000;
-  padding: 8px 14px;
-  font-size: 11px;
-  font-weight: bold;
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
-  z-index: 300;
-  pointer-events: none;
-  opacity: 0;
-  white-space: nowrap;
-  max-width: 280px;
-  border-radius: 6px 6px 6px 0;
-}
-.toast.show {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.result-banner {
-  font-size: 1.4rem;
-  font-weight: bold;
-  text-align: center;
-  padding: 14px;
-  animation: popIn 0.3s ease;
-}
-@keyframes popIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-.section-sep {
-  border: none;
-  height: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  margin: 10px 0;
-}
-
-/* ADD MONEY LOCKED */
-.add-money-btn.locked-btn {
-  background: linear-gradient(180deg, #888 0%, #666 100%);
-  cursor: not-allowed;
-  border-color: #444;
-}
-
-/* UNLOCK NOTIFICATION = XP Balloon */
-.unlock-notif {
-  position: fixed;
-  top: 50px;
-  right: 16px;
-  z-index: 400;
-  background: #ffffcc;
-  border: 1px solid #808080;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
-  color: #000;
-  padding: 10px 14px;
-  font-size: 11px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  max-width: 260px;
-  transform: translateX(300px);
-  transition:
-    transform 0.4s ease,
-    opacity 0.3s;
-  opacity: 0;
-  pointer-events: none;
-  border-radius: 6px 6px 6px 0;
-}
-.unlock-notif.show {
-  transform: translateX(0);
-  opacity: 1;
-}
-.unlock-notif.all-unlocked {
-  background: #e0ffe0;
-  border-color: #008000;
-}
-.unlock-icon {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-}
-.unlock-text {
-  line-height: 1.4;
-}
-
-.horse-select-icon {
-  width: 100px;
-  height: auto;
-  vertical-align: middle;
-  margin-right: 8px;
-}
-.horse-emoji img {
-  width: 120px;
-  max-width: 120px;
-  height: auto;
-  display: block;
-}
-.horse-emoji {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: left 0.16s linear;
-}
-.horse-lane {
-  position: relative;
-  min-height: 100px;
-  padding: 15px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
-.horse-name {
-  position: absolute;
-  left: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 1px 1px 0.1px rgba(0, 0, 0, 0.6);
-}
-.horse-select-btn {
-  padding: 12px 16px;
-  width: 100%;
-  min-height: 50px;
-  font-size: 13px;
-  background: url('assets/universal/btnBIG.png') center / 100% 100% no-repeat;
-  font-family: 'Ink Free';
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-.horse-select-btn:hover {
-  filter: sepia(1) saturate(3) hue-rotate(5deg);
-}
-.horse-select-btn.selected {
-  filter: sepia(1) saturate(3) hue-rotate(5deg);
-  font-weight: bold;
-}
+  text-shadow: 1px 1px 2px rgba(0,
