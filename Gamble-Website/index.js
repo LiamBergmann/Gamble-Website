@@ -135,11 +135,11 @@ function streakBarHTML(game) {
   ).join('');
   return `<div id="ingame-streak-wrap" style="display:flex;align-items:center;gap:8px;padding:8px 14px;
     background:rgba(0,0,0,0.25);border-radius:6px;margin-bottom:10px;flex-wrap:wrap;justify-content:center;">
-    <span style="font-family:'Tahoma',Arial,sans-serif;color:rgba(255,255,255,0.8);font-size:1rem;">🔥 Streak:</span>
+    <span style="color:rgba(255,255,255,0.8);font-size:1rem;">🔥 Streak:</span>
     <span style="display:inline-flex;align-items:center;">${pips}</span>
-    <span style="font-family:'Tahoma',Arial,sans-serif;color:var(--yellow);font-size:1rem;font-weight:700;">${s}</span>
-    <span style="font-family:'Tahoma',Arial,sans-serif;color:rgba(255,255,255,0.4);font-size:0.9rem;">| 🏆 Best: ${h}</span>
-    ${h >= 5 ? '<span style="font-family:\'Caveat\',cursive;color:#c9a84c;font-size:0.85rem;">✓ Cleared!</span>' : ''}
+    <span style="color:var(--yellow);font-size:1rem;font-weight:700;">${s}</span>
+    <span style="font-size:0.9rem;">| 🏆 Best: ${h}</span>
+    ${h >= 5 ? '<span style="font-family:\'ink free\'font-size:1rem;">✓ Cleared!</span>' : ''}
   </div>`;
 }
 
@@ -172,8 +172,8 @@ function openGame(game) {
   const gs = document.getElementById("game-screen");
   gs.classList.add("active");
   const titles = {
-    blackjack: "♠ Blackjack",
-    horses: "🐎 Horse Racing",
+    blackjack: "Blackjack",
+    horses: "Horse Racing",
   };
   document.getElementById("game-title").textContent = titles[game];
   const gc = document.getElementById("game-container");
@@ -191,7 +191,6 @@ function closeGame() {
 // ===================== RULES =====================
 const RULES = {
   blackjack: {
-    title: "♠ Blackjack Rules",
     sections: [
       {
         h: "🎯 Goal",
@@ -227,7 +226,6 @@ const RULES = {
     ],
   },
   horses: {
-    title: "🐎 Horse Racing Rules",
     sections: [
       {
         h: "🎯 Goal",
@@ -248,12 +246,12 @@ const RULES = {
       {
         h: "🐴 The Horses",
         ul: [
-          "Thunder Bolt x2 (favorite)",
-          "Golden Arrow x3",
-          "Lucky Star x4",
-          "Dark Shadow x5",
-          "Iron Will x6",
-          "Wild Spirit x8 (long shot)",
+          "Alogo x2 (favorite)",
+          "JimmyPferdo x3",
+          "Johnny Blue x4",
+          "Lerry x5",
+          "Margepferd x6",
+          "Paule x8 (long shot)",
         ],
       },
       {
@@ -288,37 +286,56 @@ function closeRules(e) {
 
 
 // ===================== CARD UTILS =====================
+const CARD_IMG_FOLDER = 'assets/BlackJack';
+const CARD_IMG_EXT = '.png';
+const CARD_BACK_IMG = `${CARD_IMG_FOLDER}/CARD_BACK${CARD_IMG_EXT}`;
+const SUIT_NAMES = { '♠': 'Pik', '♥': 'Herz', '♦': 'Karo', '♣': 'Kreuz' };
 const SUITS = ['♠','♥','♦','♣'];
-const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-const RED_SUITS = ['♥','♦'];
+const RANKS = ['A','2','3','4','5','6','7','8','9','10','Jack','Queen','King'];
+
 function createDeck() {
   let deck = [];
-  for (let s of SUITS) for (let r of RANKS) deck.push({suit:s, rank:r});
-  for (let i = deck.length-1; i > 0; i--) {
-    let j = Math.floor(Math.random()*(i+1));
-    [deck[i],deck[j]] = [deck[j],deck[i]];
+  for (let s of SUITS) for (let r of RANKS) deck.push({ suit: s, rank: r });
+  for (let i = deck.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
   }
   return deck;
 }
-function cardValue(card) {
-  if (['J','Q','K'].includes(card.rank)) return 10;
-  if (card.rank === 'A') return 11;
-  return parseInt(card.rank);
+
+function cardImageName(card) {
+  const suitName = SUIT_NAMES[card.suit] || card.suit;
+  return `${suitName}_${card.rank}${CARD_IMG_EXT}`;
 }
+
+function cardImagePath(card) {
+  return `${CARD_IMG_FOLDER}/${cardImageName(card)}`;
+}
+
+function cardValue(card) {
+  if (['Jack','Queen','King'].includes(card.rank)) return 10;
+  if (card.rank === 'Ace' || card.rank === 'A') return 11;
+  return parseInt(card.rank, 10) || 0;
+}
+
 function handValue(hand) {
   let val = 0, aces = 0;
   for (let c of hand) {
     if (c.faceDown) continue;
     val += cardValue(c);
-    if (c.rank === 'A') aces++;
+    if (['Ace','A'].includes(c.rank)) aces++;
   }
   while (val > 21 && aces > 0) { val -= 10; aces--; }
   return val;
 }
+
 function renderCard(card) {
-  const isRed = RED_SUITS.includes(card.suit);
-  if (card.faceDown) return `<div class="card face-down"></div>`;
-  return `<div class="card ${isRed?'red':'black'}"><span class="rank">${card.rank}</span><span class="suit">${card.suit}</span></div>`;
+  if (card.faceDown) {
+    return `<div class="card face-down"><img src="${CARD_BACK_IMG}" alt="Card back"></div>`;
+  }
+  return `<div class="card card-face">
+    <img src="${cardImagePath(card)}" alt="${card.rank} ${card.suit}">
+  </div>`;
 }
 
 
@@ -383,11 +400,11 @@ function initBlackjack(container) {
       <div class="bet-area">
         ${betDisplay}
         ${inBettingPhase ? `
-          <div class="chip chip-5" onclick="placeBet(5)">$5</div>
-          <div class="chip chip-10" onclick="placeBet(10)">$10</div>
-          <div class="chip chip-25" onclick="placeBet(25)">$25</div>
-          <div class="chip chip-50" onclick="placeBet(50)">$50</div>
-          <div class="chip chip-100" onclick="placeBet(100)">$100</div>
+          <img class="chip chip-5" src="assets/universal/Chip5.png" onclick="placeBet(5)" alt="$5 Chip" />
+          <img class="chip chip-10" src="assets/universal/Chip10.png" onclick="placeBet(10)" alt="$10 Chip" />
+          <img class="chip chip-25" src="assets/universal/Chip25.png" onclick="placeBet(25)" alt="$25 Chip" />
+          <img class="chip chip-50" src="assets/universal/Chip50.png" onclick="placeBet(50)" alt="$50 Chip" />
+          <img class="chip chip-100" src="assets/universal/Chip100.png" onclick="placeBet(100)" alt="$100 Chip" />
         ` : ''}
       </div>
       <div class="controls">
@@ -554,19 +571,16 @@ function initBlackjack(container) {
   function revealDealer() { dealerHand.forEach(c => { delete c.faceDown; }); }
   render();
 }
-
-
-
  
 // ===================== HORSE RACING =====================
 function initHorses(container) {
   const horses = [
-    { name:'Thunder Bolt', emoji:'🐴', odds:2, color:'#e74c3c' },
-    { name:'Golden Arrow', emoji:'🐎', odds:3, color:'#f0d080' },
-    { name:'Dark Shadow', emoji:'🦄', odds:5, color:'#9b59b6' },
-    { name:'Lucky Star', emoji:'⭐', odds:4, color:'#3498db' },
-    { name:'Iron Will', emoji:'🏇', odds:6, color:'#2ecc71' },
-    { name:'Wild Spirit', emoji:'🎠', odds:8, color:'#e67e22' },
+    { name:'Alogo', img:'Alogo.png', odds:2, color:'#e74c3c' },
+    { name:'JimmyPferdo', img:'JimmyPferdo.png', odds:3, color:'#f0d080' },
+    { name:'Johnny Blue', img:'Johnny_Blue.png', odds:5, color:'#9b59b6' },
+    { name:'Lerry', img:'Lerry.png', odds:4, color:'#3498db' },
+    { name:'Margepferd', img:'Margepferd.png', odds:6, color:'#2ecc71' },
+    { name:'Paule', img:'Paule.png', odds:8, color:'#e67e22' },
   ];
   let bet = 0, selectedHorse = null, racing = false, positions = [], winner = null, raceFinished = false;
  
@@ -576,11 +590,13 @@ function initHorses(container) {
     container.innerHTML = `
       ${streakBarHTML('horses')}
       <div class="felt-table" style="background:radial-gradient(ellipse, #2d7a2a 0%, #1a5a18 100%)">
-        <div class="track" id="track-container">
+        <div class="track horse-track" id="track-container">
           ${horses.map((h,i)=>`
             <div class="horse-lane" id="lane-${i}">
               <div class="finish-line"></div>
-              <span class="horse-emoji" id="horse-${i}" style="left:${positions[i]||5}%">${h.emoji}</span>
+              <span class="horse-emoji" id="horse-${i}" style="left:${positions[i]||5}%">
+                <img class="horse-select-icon" src="assets/Pferde_png/${h.img}" alt="${h.name}" />
+              </span>
               <span class="horse-name" style="color:${h.color}">${h.name}</span>
             </div>
           `).join('')}
@@ -590,7 +606,7 @@ function initHorses(container) {
       <div class="horse-select-grid">
         ${horses.map((h,i)=>`
           <button class="horse-select-btn ${selectedHorse===i?'selected':''}" onclick="selectHorse(${i})">
-            ${h.emoji} ${h.name} <span style="float:right;color:#c8a820">x${h.odds}</span>
+            ${h.name} <span style="float:right;color:#c8a820">x${h.odds}</span>
           </button>
         `).join('')}
       </div>
@@ -598,11 +614,11 @@ function initHorses(container) {
         <span class="bet-label">Bet:</span>
         <span class="bet-display">${formatMoney(bet)}</span>
         ${!racing && !raceFinished ? `
-          <div class="chip chip-5" onclick="hPlaceBet(5)">$5</div>
-          <div class="chip chip-10" onclick="hPlaceBet(10)">$10</div>
-          <div class="chip chip-25" onclick="hPlaceBet(25)">$25</div>
-          <div class="chip chip-50" onclick="hPlaceBet(50)">$50</div>
-          <div class="chip chip-100" onclick="hPlaceBet(100)">$100</div>
+          <img class="chip chip-5" src="assets/universal/Chip5.png" onclick="hPlaceBet(5)" alt="$5 Chip" />
+          <img class="chip chip-10" src="assets/universal/Chip10.png" onclick="hPlaceBet(10)" alt="$10 Chip" />
+          <img class="chip chip-25" src="assets/universal/Chip25.png" onclick="hPlaceBet(25)" alt="$25 Chip" />
+          <img class="chip chip-50" src="assets/universal/Chip50.png" onclick="hPlaceBet(50)" alt="$50 Chip" />
+          <img class="chip chip-100" src="assets/universal/Chip100.png" onclick="hPlaceBet(100)" alt="$100 Chip" />
         ` : ''}
       </div>
       <div class="controls">
@@ -669,10 +685,10 @@ function initHorses(container) {
         if (winner === selectedHorse) {
           const win = bet * w.odds;
           updateWallet(win);
-          render(`🏆 ${w.emoji} ${w.name} wins! You win ${formatMoney(win)}!`, 'msg-win');
+          render(`🏆 ${w.name} wins! You win ${formatMoney(win)}!`, 'msg-win');
           recordWin('horses');
         } else {
-          render(`🏁 ${w.emoji} ${w.name} wins! Better luck next time.`, 'msg-lose');
+          render(`🏁 ${w.name} wins! Better luck next time.`, 'msg-lose');
           recordLoss('horses');
         }
         bet = 0;
@@ -691,4 +707,3 @@ function initHorses(container) {
 document.getElementById('modal-overlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
- 

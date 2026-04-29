@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doodle Casino</title>
-
+    <link rel="icon" href="assets/logo/favicon.png" type="image/x-icon" />
     <link
       href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=P"
       atrick+Hand&display="swap"
@@ -16,7 +16,9 @@
   <body>
     <div id="allContent">
       <header>
-        <div class="logo">Doodle Casino</div>
+        <div class="logo" onclick="closeGame()">
+          <img src="assets/logo/LogoUnternanderV2.png" alt="Doodle Casino Logo" height="50">
+        </div>
         <div class="wallet">
           <span class="wallet-icon">💰</span>
           <span class="wallet-amount" id="wallet-display">$1,000</span>
@@ -102,16 +104,12 @@
         <div class="games-grid">
           <div class="game-card" onclick="openGame('blackjack')">
             <div class="card-title">
-              🃏 Blackjack
-              <div class="card-title-btns">
-                <div class="card-title-btn min">_</div>
-                <div class="card-title-btn max">□</div>
-                <div class="card-title-btn cls">✕</div>
-              </div>
+              <img src="assets/BlackJack/Blackjackicon.png" alt="BJ_LOGO" width="25" height="25">
+              Blackjack
             </div>
             <span class="streak-badge" id="streak-blackjack">🔥 0</span>
             <div class="game-card-inner">
-              <span class="game-emoji">🃏</span>
+              <span class="game-emoji"><img src="assets/BlackJack/Blackjackicon.png" alt="BJ_LOGO" width="100" height="100"></span>
               <h2>Blackjack</h2>
               <p>
                 Beat the dealer to 21 without going bust. The classic card game
@@ -122,16 +120,11 @@
           </div>
           <div class="game-card" onclick="openGame('horses')">
             <div class="card-title">
-              🐎 Horse Racing
-              <div class="card-title-btns">
-                <div class="card-title-btn min">_</div>
-                <div class="card-title-btn max">□</div>
-                <div class="card-title-btn cls">✕</div>
-              </div>
+              <img src="assets/Pferde_png/Pferdeicon.png" alt="BJ_LOGO" width="25" height="25"> Horse Racing
             </div>
             <span class="streak-badge" id="streak-horses">🔥 0</span>
             <div class="game-card-inner">
-              <span class="game-emoji">🐎</span>
+              <span class="game-emoji"><img src="assets/Pferde_png/Pferdeicon.png" alt="BJ_LOGO" width="150" height="150"></span>
               <h2>Horse Racing</h2>
               <p>
                 Pick your horse, place your bet, and cheer them to the finish
