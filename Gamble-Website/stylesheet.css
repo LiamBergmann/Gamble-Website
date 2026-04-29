@@ -342,7 +342,7 @@ header {
 /* GAME SCREEN = XP window */
 #game-screen {
   background: var(--xp-desktop);
-  background-image: url(/assets/background/Hintergrund.png);
+  background: rgb(94, 172, 6) url(assets/background/Hintergrund.png) no-repeat;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -354,6 +354,7 @@ header {
 }
 #game-screen.active {
   display: flex;
+  background: rgb(94, 172, 6) url(assets/background/Hintergrund.png) no-repeat;
 }
 
 /* Game window wrapper */
