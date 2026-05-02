@@ -478,7 +478,7 @@ function initBlackjack(container) {
           <img class="chip chip-25" src="assets/universal/Chip25.png" onclick="placeBet(25)" alt="$25 Chip" />
           <img class="chip chip-50" src="assets/universal/Chip50.png" onclick="placeBet(50)" alt="$50 Chip" />
           <img class="chip chip-100" src="assets/universal/Chip100.png" onclick="placeBet(100)" alt="$100 Chip" />
-          <img class="chip chip-500" src="assets/universal/Chip500.png" onclick="hPlaceBet(500)" alt="$500 Chip" />
+          <img class="chip chip-500" src="assets/universal/Chip500.png" onclick="placeBet(500)" alt="$500 Chip" />
         ` : ''}
       </div>
       <div class="controls">
